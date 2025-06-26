@@ -4,7 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\VisitaResource\Pages;
 use App\Filament\Resources\VisitaResource\RelationManagers;
+
 use App\Models\Visita;
+use App\Models\User;
+use App\Models\Cliente;
+
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,6 +16,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+use Filament\Forms\Get;
 
 class VisitaResource extends Resource
 {
@@ -22,19 +28,8 @@ class VisitaResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(3)
             ->schema([
-                Forms\Components\Select::make('vendedor_id')
-                    ->label('Vendedor')
-                    ->required()
-                    // ->relationship('vendedor', 'name')->where(
-                    //     fn (Builder $query) => $query->where('rol', 'vendedor')
-                    // )
-                    ->options(
-                        fn () => \App\Models\User::where('rol', 'vendedor')->pluck('name', 'id')
-                    )
-                    ->searchable()
-                    ->preload()
-                    ,
                 Forms\Components\Select::make('cliente_id')
                     ->label('Cliente')
                     ->relationship('cliente', 'razon_social')
@@ -54,8 +49,22 @@ class VisitaResource extends Resource
                     ])
                     ->default('pendiente')
                     ->required(),
+                Forms\Components\RichEditor::make('indicaciones')
+                    ->label('Indicaciones')
+                    ->columnSpanFull(),
                 Forms\Components\FileUpload::make('url_archivos')
                     ->label('Archivos Adjuntos')
+                    ->multiple()
+                    ->acceptedFileTypes(['image/*', 'application/pdf'])
+                    ->maxSize(10240) // 10 MB
+                    ->enableReordering()
+                    ->enableOpen()
+                    ->enableDownload()
+                    ->disk('public')
+                    ->directory('visitas')
+                    ->columnSpanFull(),
+                Forms\Components\FileUpload::make('url_imagenes')
+                    ->label('Imagenes Adjuntos')
                     ->multiple()
                     ->acceptedFileTypes(['image/*', 'application/pdf'])
                     ->maxSize(10240) // 10 MB
@@ -101,8 +110,8 @@ class VisitaResource extends Resource
     {
         return [
             'index' => Pages\ListVisitas::route('/'),
-            'create' => Pages\CreateVisita::route('/create'),
-            'edit' => Pages\EditVisita::route('/{record}/edit'),
+            'create' => Pages\CreateVisita::route('/crear'),
+            'edit' => Pages\EditVisita::route('/{record}/editar'),
         ];
     }
 }
