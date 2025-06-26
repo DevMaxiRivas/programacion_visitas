@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Visita::class, 'vendedor_id');
     }
+
+    public static function actual()
+    {
+        return auth()->user();
+    }
 }

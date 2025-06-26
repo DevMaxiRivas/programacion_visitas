@@ -8,6 +8,8 @@ use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Facades\Hash;
 
+use App\Models\Visita;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -16,5 +18,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(UserSeeder::class);
-    }
+        $this->call(ClienteSeeder::class);
+
+        Visita::factory(100)->create();
+}
 }

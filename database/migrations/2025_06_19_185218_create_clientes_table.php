@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('razon_social');
             $table->unsignedBigInteger('codigo')->index();
-            $table->unsignedBigInteger('vendedor_id')->nullable();
+            $table->unsignedBigInteger('vendedor_id');
             $table->timestamps();
         });
     }

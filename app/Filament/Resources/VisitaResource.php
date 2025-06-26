@@ -38,7 +38,7 @@ class VisitaResource extends Resource
                     ->required(),
                 Forms\Components\DatePicker::make('fecha_visita')
                     ->required()
-                    ->label('Fecha de visita'),
+                    ->label('Fecha de visita    '),
                 Forms\Components\Select::make('estado')
                     ->label('Estado')
                     ->options([

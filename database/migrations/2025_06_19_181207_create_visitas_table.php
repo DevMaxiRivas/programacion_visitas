@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('observaciones')->nullable();
             $table->string('url_archivos')->nullable();
             $table->string('url_imagenes')->nullable();
-            $table->string('estado')->default('pendiente');
+            $table->unsignedSmallInteger('estado')->default(0);
             $table->timestamps();
         });
     }
