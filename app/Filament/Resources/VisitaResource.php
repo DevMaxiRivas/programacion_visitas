@@ -36,10 +36,9 @@ class VisitaResource extends Resource
                     ->searchable()
                     ->preload()
                     ->required(),
-                Forms\Components\DatePicker::make('fecha')
-                    ->default(now())
-                    ->label('Fecha de Visita')
-                    ->required(),
+                Forms\Components\DatePicker::make('fecha_visita')
+                    ->required()
+                    ->label('Fecha de visita'),
                 Forms\Components\Select::make('estado')
                     ->label('Estado')
                     ->options([
@@ -84,7 +83,14 @@ class VisitaResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('cliente.razon_social')
+                    ->label('Cliente')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('fecha_visita')
+                    ->label('Fecha de Visita')
+                    ->date()
+                    ->sortable(),
             ])
             ->filters([
                 //

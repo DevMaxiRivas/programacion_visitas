@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('vendedor_id')->index();
             $table->unsignedBigInteger('cliente_id')->index();
-            $table->date('fecha')->nullable();
+            $table->date('fecha_visita')->nullable();
             $table->string('indicaciones')->nullable();
             $table->string('observaciones')->nullable();
             $table->string('url_archivos')->nullable();
