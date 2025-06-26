@@ -21,7 +21,7 @@ class CreateVisita extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
-        $data['vendedor_id'] = Cliente::find($data['cliente_id'])->vendedor_id ?? auth()->id();
+        $data['vendedor_id'] = Cliente::find($data['cliente_id'])->vendedor_id;
         return static::getModel()::create($data);
     }
 }
