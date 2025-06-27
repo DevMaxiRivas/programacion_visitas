@@ -71,4 +71,9 @@ class User extends Authenticatable
     {
         return auth()->user();
     }
+
+    public function clientes()
+    {
+        return $this->hasMany(Cliente::class, 'vendedor_id');
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ClienteResource\Pages;
 use App\Filament\Resources\ClienteResource\RelationManagers;
 use App\Models\Cliente;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -23,7 +24,16 @@ class ClienteResource extends Resource
     {
         return $form
             ->schema([
-                
+                Forms\Components\TextInput::make('razon_social')
+                    ->required()
+                    ->unique(ignoreRecord: true)
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('codigo')
+                    ->required()
+                    ->unique(ignoreRecord: true),
+                Forms\Components\Select::make('vendedor_id')
+                    ->options(User::where('rol','vendedor')->pluck('name', 'id'))
+                    ->required(),
             ]);
     }
 

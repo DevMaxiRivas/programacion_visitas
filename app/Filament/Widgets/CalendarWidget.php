@@ -68,7 +68,10 @@ class CalendarWidget extends FullCalendarWidget
                             )
                             ->required(),
                         Forms\Components\Hidden::make('vendedor_id'),
-                        Forms\Components\DatePicker::make('fecha_visita'),
+                        Forms\Components\DatePicker::make('fecha_visita')
+                        ->minDate(now()->format('Y-m-d'))
+                        ->required()
+                        ,
                     ]),
                     Forms\Components\RichEditor::make('indicaciones')
                         ->columnSpanFull()
@@ -120,7 +123,8 @@ class CalendarWidget extends FullCalendarWidget
                     'start' => $visita->fecha_visita,
                     'end' => $visita->fecha_visita,
                     'url' => VisitaResource::getUrl(name: 'edit', parameters: ['record' => $visita]),
-                    'shouldOpenUrlInNewTab' => true
+                    'shouldOpenUrlInNewTab' => true,
+                    'color' => Visita::COLORES_ESTADOS[$visita->estado],
                 ]
             )
             ->all();

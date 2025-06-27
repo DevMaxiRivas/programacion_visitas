@@ -36,7 +36,7 @@ class VisitaResource extends Resource
                 ->required(),
             Forms\Components\DatePicker::make('fecha_visita')
                 ->default(now()->format('Y-m-d'))
-                ->minDate(now())
+                ->minDate(now()->format('Y-m-d'))
                 ->required()
                 ->label('Fecha de visita'),
             Forms\Components\Select::make('estado')
@@ -50,7 +50,21 @@ class VisitaResource extends Resource
                 ->required(),
             Forms\Components\RichEditor::make('indicaciones')
                 ->label('Indicaciones')
-                ->columnSpanFull(),
+                ->columnSpanFull()
+                ->toolbarButtons([
+                    'blockquote',
+                    'bold',
+                    'bulletList',
+                    'h2',
+                    'h3',
+                    'italic',
+                    'link',
+                    'orderedList',
+                    'redo',
+                    'strike',
+                    'underline',
+                    'undo',
+                ]),
             Forms\Components\FileUpload::make('url_archivos')
                 ->label('Archivos Adjuntos')
                 ->multiple()
@@ -69,18 +83,34 @@ class VisitaResource extends Resource
                 ->columnSpanFull(),
             Forms\Components\RichEditor::make('observaciones')
                 ->label('Observaciones')
-                ->columnSpanFull(),
+                ->columnSpanFull()
+                ->toolbarButtons([
+                    'blockquote',
+                    'bold',
+                    'bulletList',
+                    'h2',
+                    'h3',
+                    'italic',
+                    'link',
+                    'orderedList',
+                    'redo',
+                    'strike',
+                    'underline',
+                    'undo',
+                ]),
+        ];
+
+        if (User::actual()->rol != 'admin') {
+            $campos_a_desactivar = [
+                0,
+                1,
+                3
             ];
 
-            if(User::actual()->rol != 'admin') {
-                $campos_a_desactivar = [
-                    0,1,3
-                ];
-
-                foreach ($campos_a_desactivar as $campo) {
-                    $listaComponentesFormulario[$campo]->disabled();
-                }
+            foreach ($campos_a_desactivar as $campo) {
+                $listaComponentesFormulario[$campo]->disabled();
             }
+        }
 
 
         return $listaComponentesFormulario;
