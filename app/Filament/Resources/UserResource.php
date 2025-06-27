@@ -17,7 +17,19 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Usuarios';
+
+    protected static ?string $navigationLabel = 'Usuarios';
+
+    protected static ?string $pluralLabel = 'Usuarios';
+
+    protected static ?string $slug = 'usuarios';
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationGroupIcon = 'heroicon-o-users';
+
+    protected static ?string $modelLabel = 'Usuario';
 
     public static function form(Form $form): Form
     {
@@ -36,7 +48,7 @@ class UserResource extends Resource
                     ->minLength(8)
                     ->maxLength(255)
                     ->dehydrateStateUsing(fn ($state) => bcrypt($state))
-                    ->visible(fn ($record) => is_null($record->id)),
+                    ->visible(fn ($record) => empty($record->id)),
                 Forms\Components\Select::make('roles')
                     ->options(
                         \App\Models\Role::all()->pluck('name')
