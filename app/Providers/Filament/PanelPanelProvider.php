@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Auth\CustomLogin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -27,10 +28,19 @@ class PanelPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('panel')
+            ->sidebarCollapsibleOnDesktop()
+            ->brandLogo(asset('imagenes/logo_hierronort.png'))
+            ->darkModeBrandLogo(asset('imagenes/logo-hierronort-white.png'))
+            ->brandLogoHeight("4rem")
             ->path('panel')
-            ->login()
+            ->login(CustomLogin::class)
+            ->loginRouteSlug('iniciar-sesion')
+            ->registration()
+            ->registrationRouteSlug('registro')
+            ->passwordReset()
+            ->passwordResetRouteSlug('restablecer-contraseña')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#C62828',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
