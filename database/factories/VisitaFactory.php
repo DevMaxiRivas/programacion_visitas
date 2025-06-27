@@ -24,7 +24,7 @@ class VisitaFactory extends Factory
         return [
             'vendedor_id' => $cliente->vendedor->id,
             'cliente_id' => $cliente->id,
-            'fecha_visita' => $this->faker->dateTimeBetween('-1 month', '+1 month'),
+            'fecha_visita' => $this->faker->dateTimeBetween('-1 month', '+1 month')->format('Y-m-d'),
             'indicaciones' => $this->faker->sentence(),
             'observaciones' => $this->faker->sentence(),
             'estado' => $this->faker->randomElement([0,1,2]),

@@ -19,6 +19,8 @@ class Visita extends Model
         'hora_visita',
         'url_archivos',
         'observaciones',
+        'indicaciones',
+        'estado'
     ];
 
     protected$casts = [

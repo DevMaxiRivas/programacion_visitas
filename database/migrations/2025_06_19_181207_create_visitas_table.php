@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('url_imagenes')->nullable();
             $table->unsignedSmallInteger('estado')->default(0);
             $table->timestamps();
+
+            $table->foreign('vendedor_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('cliente_id')->references('id')->on('clientes')->onDelete('cascade');
         });
     }
 

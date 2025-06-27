@@ -55,6 +55,7 @@ class PanelPanelProvider extends PanelProvider
             ])
             ->plugin(
                 FilamentFullCalendarPlugin::make()
+                ->selectable()
             )
         ;
     }
