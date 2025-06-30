@@ -84,7 +84,6 @@ class VisitaResource extends Resource
                 ->directory(function (Get $get) {
                     return 'visitas\\archivos\\' . Cliente::find($get('cliente_id'))->codigo ?? 'sin_cliente';
                 })
-                ->downloadable()
                 ->columnSpanFull(),
             Forms\Components\FileUpload::make('url_imagenes')
                 ->label('Imagenes Adjuntas')
@@ -96,9 +95,8 @@ class VisitaResource extends Resource
                 ->directory(function (Get $get) {
                     return 'visitas\\imagenes\\' . Cliente::find($get('cliente_id'))->codigo ?? 'sin_cliente';
                 })
-                ->columnSpanFull()
-                ->downloadable()
-                ->previewable(false),
+                ->columnSpanFull(),
+                // ->previewable(false),
             Forms\Components\RichEditor::make('observaciones')
                 ->label('Observaciones')
                 ->columnSpanFull()
