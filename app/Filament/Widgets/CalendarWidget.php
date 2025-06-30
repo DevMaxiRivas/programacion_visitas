@@ -64,7 +64,9 @@ class CalendarWidget extends FullCalendarWidget
                             ->preload()
                             ->live()
                             ->afterStateUpdated(
-                                fn(Get $get, callable $set) => $set('vendedor_id', Cliente::find($get('cliente_id'))->vendedor_id)
+                                fn(Get $get, callable $set) => 
+                                $get('cliente_id') ?     
+                                $set('vendedor_id', Cliente::find($get('cliente_id'))->vendedor_id) : null
                             )
                             ->required(),
                         Forms\Components\Hidden::make('vendedor_id'),

@@ -17,7 +17,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+
 use Filament\Forms\Get;
+use Illuminate\Support\Facades\Log;
 
 class VisitaResource extends Resource
 {
@@ -33,7 +35,14 @@ class VisitaResource extends Resource
                 ->relationship('cliente', 'razon_social')
                 ->searchable()
                 ->preload()
+                ->live()
+                ->afterStateUpdated(
+                    function (Get $get, callable $set) {
+                        $set('vendedor_id', Cliente::find($get('cliente_id'))->vendedor_id ?? null);
+                    } 
+                )
                 ->required(),
+            Forms\Components\Hidden::make('vendedor_id'),
             Forms\Components\DatePicker::make('fecha_visita')
                 ->default(now()->format('Y-m-d'))
                 ->minDate(now()->format('Y-m-d'))

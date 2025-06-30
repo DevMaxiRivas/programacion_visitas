@@ -25,6 +25,7 @@ class Visita extends Model
 
     protected$casts = [
         'url_archivos' => 'array',
+        'url_imagenes' => 'array',
     ];
 
     public $timestamps = true;

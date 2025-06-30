@@ -21,7 +21,20 @@ class CreateVisita extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
-        $data['vendedor_id'] = Cliente::find($data['cliente_id'])->vendedor_id;
+        // Guardar archivo 1
+    if (isset($data['url_archivos'])) {
+        foreach ($data['url_archivos'] as $file) {
+            $filePath = $file->store('visitas', 'public'); // Guardar en el disco público
+        }
+    }
+
+    // Guardar archivo 2
+    if (isset($data['url_imagenes'])) {
+        foreach ($data['url_imagenes'] as $file) {
+            $filePath = $file->store('visitas', 'public'); // Guardar en el disco público
+        }
+    }
+
         return static::getModel()::create($data);
     }
 }
