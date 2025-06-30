@@ -76,4 +76,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Cliente::class, 'vendedor_id');
     }
+
+    public function canAccessPanel(\Filament\Panel $panel): bool
+    {
+        return !empty(self::actual()->rol) && in_array($this->rol, ['admin', 'vendedor']);
+    }
 }
