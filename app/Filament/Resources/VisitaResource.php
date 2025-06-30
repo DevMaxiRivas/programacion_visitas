@@ -96,7 +96,7 @@ class VisitaResource extends Resource
                     return 'visitas\\imagenes\\' . Cliente::find($get('cliente_id'))->codigo ?? 'sin_cliente';
                 })
                 ->columnSpanFull()
-                ->previewable(true),
+                ->previewable(false),
             Forms\Components\RichEditor::make('observaciones')
                 ->label('Observaciones')
                 ->columnSpanFull()
