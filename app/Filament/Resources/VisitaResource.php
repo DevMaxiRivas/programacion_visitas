@@ -77,15 +77,15 @@ class VisitaResource extends Resource
             Forms\Components\FileUpload::make('url_archivos')
                 ->label('Archivos Adjuntos')
                 ->multiple()
-                ->acceptedFileTypes(['image/*', 'application/pdf'])
+                ->acceptedFileTypes(['application/pdf'])
                 ->maxSize(10240) // 10 MB
                 ->disk('public')
                 ->directory('visitas')
                 ->columnSpanFull(),
-            Forms\Components\FileUpload::make('url_imagenes')
-                ->label('Imagenes Adjuntos')
+                Forms\Components\FileUpload::make('url_imagenes')
+                ->label('Imagenes Adjuntas')
                 ->multiple()
-                ->acceptedFileTypes(['image/*', 'application/pdf'])
+                ->acceptedFileTypes(['image/*'])
                 ->maxSize(10240) // 10 MB
                 ->disk('public')
                 ->directory('visitas')
