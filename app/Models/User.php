@@ -10,7 +10,10 @@ use Illuminate\Support\Str;
 
 // use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+// Filament
+use Filament\Models\Contracts\FilamentUser;
+
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -80,5 +83,10 @@ class User extends Authenticatable
     public function canAccessPanel(\Filament\Panel $panel): bool
     {
         return !empty(self::actual()->rol);
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return config('app.url') . '/imagenes/perfiles/profile.png';
     }
 }
