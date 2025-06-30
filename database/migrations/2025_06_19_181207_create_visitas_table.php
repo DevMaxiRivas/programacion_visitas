@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('indicaciones')->nullable();
             $table->string('observaciones')->nullable();
             $table->string('url_archivos')->nullable();
+            $table->string('nombres_archivos_originales')->nullable();
             $table->string('url_imagenes')->nullable();
+            $table->string('nombres_imagenes_originales')->nullable();
             $table->unsignedSmallInteger('estado')->default(0);
             $table->timestamps();
 

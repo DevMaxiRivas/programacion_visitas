@@ -39,7 +39,7 @@ class VisitaResource extends Resource
                 ->afterStateUpdated(
                     function (Get $get, callable $set) {
                         $set('vendedor_id', Cliente::find($get('cliente_id'))->vendedor_id ?? null);
-                    } 
+                    }
                 )
                 ->required(),
             Forms\Components\Hidden::make('vendedor_id'),
@@ -76,20 +76,29 @@ class VisitaResource extends Resource
                 ]),
             Forms\Components\FileUpload::make('url_archivos')
                 ->label('Archivos Adjuntos')
+                ->storeFileNamesIn('nombres_archivos_originales')
                 ->multiple()
                 ->acceptedFileTypes(['application/pdf'])
                 ->maxSize(10240) // 10 MB
-                ->disk('public')
-                ->directory('visitas')
+                ->disk('local')
+                ->directory(function (Get $get) {
+                    return 'visitas\\archivos\\' . Cliente::find($get('cliente_id'))->codigo ?? 'sin_cliente';
+                })
+                ->downloadable()
                 ->columnSpanFull(),
-                Forms\Components\FileUpload::make('url_imagenes')
+            Forms\Components\FileUpload::make('url_imagenes')
                 ->label('Imagenes Adjuntas')
+                ->storeFileNamesIn('nombres_imagenes_originales')
                 ->multiple()
                 ->acceptedFileTypes(['image/*'])
                 ->maxSize(10240) // 10 MB
-                ->disk('public')
-                ->directory('visitas')
-                ->columnSpanFull(),
+                ->disk('local')
+                ->directory(function (Get $get) {
+                    return 'visitas\\imagenes\\' . Cliente::find($get('cliente_id'))->codigo ?? 'sin_cliente';
+                })
+                ->columnSpanFull()
+                ->downloadable()
+                ->previewable(false),
             Forms\Components\RichEditor::make('observaciones')
                 ->label('Observaciones')
                 ->columnSpanFull()

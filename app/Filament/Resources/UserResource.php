@@ -43,6 +43,14 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('cuil')
+                    ->label('CUIL')
+                    ->numeric()
+                    ->maxLength(11)
+                    ->unique(ignoreRecord: true)
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
@@ -50,9 +58,12 @@ class UserResource extends Resource
                     ->maxLength(255)
                     ->dehydrateStateUsing(fn ($state) => bcrypt($state))
                     ->visible(fn ($record) => empty($record->id)),
-                Forms\Components\Select::make('roles')
+                Forms\Components\Select::make('rol')
                     ->options(
-                        \App\Models\Role::all()->pluck('name')
+                        [
+                            'admin' => 'Administrador',
+                            'vendedor' => 'Vendedor'
+                        ]
                     )
             ]);
     }

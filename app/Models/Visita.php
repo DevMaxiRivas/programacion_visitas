@@ -18,6 +18,7 @@ class Visita extends Model
         'fecha_visita',
         'hora_visita',
         'url_archivos',
+        'url_imagenes',
         'observaciones',
         'indicaciones',
         'estado'
@@ -25,10 +26,10 @@ class Visita extends Model
 
     protected$casts = [
         'url_archivos' => 'array',
+        'nombres_archivos_originales' => 'array',
         'url_imagenes' => 'array',
+        'nombres_imagenes_originales' => 'array',
     ];
-
-    public $timestamps = true;
 
     const ESTADOS = [
         'pendiente' => 0,
