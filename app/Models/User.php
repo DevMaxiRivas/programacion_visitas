@@ -79,6 +79,6 @@ class User extends Authenticatable
 
     public function canAccessPanel(\Filament\Panel $panel): bool
     {
-        return !empty(self::actual()->rol) && in_array($this->rol, ['admin', 'vendedor']);
+        return !empty(self::actual()->rol);
     }
 }
