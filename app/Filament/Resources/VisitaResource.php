@@ -80,7 +80,7 @@ class VisitaResource extends Resource
                 ->multiple()
                 ->acceptedFileTypes(['application/pdf'])
                 ->maxSize(10240) // 10 MB
-                ->disk('local')
+                ->disk('public')
                 ->directory(function (Get $get) {
                     return 'visitas\\archivos\\' . Cliente::find($get('cliente_id'))->codigo ?? 'sin_cliente';
                 })
@@ -91,12 +91,12 @@ class VisitaResource extends Resource
                 ->multiple()
                 ->acceptedFileTypes(['image/*'])
                 ->maxSize(10240) // 10 MB
-                ->disk('local')
+                ->disk('public')
                 ->directory(function (Get $get) {
                     return 'visitas\\imagenes\\' . Cliente::find($get('cliente_id'))->codigo ?? 'sin_cliente';
                 })
-                ->columnSpanFull(),
-                // ->previewable(false),
+                ->columnSpanFull()
+                ->previewable(true),
             Forms\Components\RichEditor::make('observaciones')
                 ->label('Observaciones')
                 ->columnSpanFull()
