@@ -19,10 +19,10 @@ class Cliente extends Model
         return $this->belongsTo(User::class, 'vendedor_id');
     }
 
-    public function scopeWithVendedor($query)
-    {
-        return $query->with('vendedor');
-    }
+    // public function scopeWithVendedor($query)
+    // {
+    //     return $query->with('vendedor');
+    // }
 
     public function visitas()
     {

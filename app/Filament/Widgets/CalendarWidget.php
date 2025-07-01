@@ -124,7 +124,7 @@ class CalendarWidget extends FullCalendarWidget
                     'title' => $visita->cliente->razon_social,
                     'start' => $visita->fecha_visita,
                     'end' => $visita->fecha_visita,
-                    'url' => VisitaResource::getUrl(name: 'edit', parameters: ['record' => $visita]),
+                    'url' => VisitaResource::getUrl(name: 'view', parameters: ['record' => $visita]),
                     'color' => $visita->estado->color(),
                 ]
             )

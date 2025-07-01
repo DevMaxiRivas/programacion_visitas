@@ -2,26 +2,23 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\EnumVisitaEstado;
 use App\Filament\Resources\VisitaResource\Pages;
 use App\Filament\Resources\VisitaResource\RelationManagers;
-
-use App\Models\Visita;
-use App\Enums\EnumVisitaEstado;
-
-use App\Models\User;
 use App\Models\Cliente;
-
+use App\Models\User;
+use App\Models\Visita;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-
-use Filament\Forms\Get;
-use Filament\Infolists\Components\TextEntry;
-use Illuminate\Support\Facades\Log;
-
-use Filament\Infolists\Infolist;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class VisitaResource extends Resource
 {
@@ -129,7 +126,7 @@ class VisitaResource extends Resource
 
         return $listaComponentesFormulario;
     }
-
+    
     public static function form(Form $form): Form
     {
         return $form
@@ -155,7 +152,6 @@ class VisitaResource extends Resource
                     ->badge(),
                 Tables\Columns\TextColumn::make('vendedor.name')
                 ->label('Vendedor')
-                ->default('N/A')
                 ->sortable(),
             ])
             ->defaultSort('fecha_visita', 'desc')
@@ -180,16 +176,29 @@ class VisitaResource extends Resource
         ];
     }
 
-   public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Infolist $infolist): Infolist
     {
         return $infolist
             ->schema([
-                    TextEntry::make('cliente.razon_social')->label('Razón Social'),
-                    TextEntry::make('created_at')
-                        ->label('Fecha de creación')
-                        ->dateTime()
-                ]
-            );
+                TextEntry::make('cliente.razon_social')
+                    ->label('Cliente'),
+                TextEntry::make('vendedor.name')
+                    ->label('Vendedor'),
+                TextEntry::make('estado')
+                    ->label('Estado'),
+                TextEntry::make('created_at')
+                    ->label('Fecha de Creación')
+                    ->dateTime(),
+                TextEntry::make('fecha_visita')
+                    ->label('Fecha de Visita')
+                    ->dateTime(),
+                TextEntry::make('updated_at')
+                    ->label('Fecha de Actualización')
+                    ->dateTime(),
+                ImageEntry::make('images_path')
+                    ->visibility('private')
+                    ->defaultImageUrl(url('https://i.pinimg.com/736x/82/47/0b/82470b4ed44c3edacfcd4201e2297050.jpg'))
+            ]);
     }
 
     public static function getPages(): array
@@ -197,7 +206,7 @@ class VisitaResource extends Resource
         return [
             'index' => Pages\ListVisitas::route('/'),
             'create' => Pages\CreateVisita::route('/crear'),
-            // 'view' => Pages\ViewVisita::route('/ver/{record}'),
+            'view' => Pages\ViewVisita::route('/{record}'),
             'edit' => Pages\EditVisita::route('/{record}/editar'),
         ];
     }
