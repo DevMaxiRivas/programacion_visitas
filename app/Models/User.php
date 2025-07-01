@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
+use App\Enums\EnumsRoles;
+
 // use Spatie\Permission\Traits\HasRoles;
 
 // Filament
@@ -50,6 +52,7 @@ class User extends Authenticatable implements FilamentUser
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'rol' => EnumsRoles::class, // Cast the 'rol' attribute to the EnumsRoles enum
         ];
     }
 

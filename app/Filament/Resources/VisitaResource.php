@@ -6,6 +6,8 @@ use App\Filament\Resources\VisitaResource\Pages;
 use App\Filament\Resources\VisitaResource\RelationManagers;
 
 use App\Models\Visita;
+use App\Enums\EnumVisitaEstado;
+
 use App\Models\User;
 use App\Models\Cliente;
 
@@ -14,12 +16,12 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-
 
 use Filament\Forms\Get;
+use Filament\Infolists\Components\TextEntry;
 use Illuminate\Support\Facades\Log;
+
+use Filament\Infolists\Infolist;
 
 class VisitaResource extends Resource
 {
@@ -50,12 +52,8 @@ class VisitaResource extends Resource
                 ->label('Fecha de visita'),
             Forms\Components\Select::make('estado')
                 ->label('Estado')
-                ->options([
-                    0 => 'Pendiente',
-                    1 => 'Completada',
-                    2 => 'Cancelada',
-                ])
-                ->default(0)
+                ->options(EnumVisitaEstado::class)
+                ->default(EnumVisitaEstado::PENDIENTE)
                 ->required(),
             Forms\Components\RichEditor::make('indicaciones')
                 ->label('Indicaciones')
@@ -148,14 +146,20 @@ class VisitaResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('fecha_visita')
-                    ->label('Fecha de Visita')
-                    ->date()
-                    ->sortable(),
+                ->label('Fecha de Visita')
+                ->date()
+                ->sortable(),
+                Tables\Columns\TextColumn::make('estado')
+                    ->label('Estado')
+                    ->sortable()
+                    ->badge()
             ])
+            ->defaultSort('fecha_visita', 'desc')
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -172,11 +176,24 @@ class VisitaResource extends Resource
         ];
     }
 
+   public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                    TextEntry::make('cliente.razon_social')->label('Razón Social'),
+                    TextEntry::make('created_at')
+                        ->label('Fecha de creación')
+                        ->dateTime()
+                ]
+            );
+    }
+
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListVisitas::route('/'),
             'create' => Pages\CreateVisita::route('/crear'),
+            // 'view' => Pages\ViewVisita::route('/ver/{record}'),
             'edit' => Pages\EditVisita::route('/{record}/editar'),
         ];
     }

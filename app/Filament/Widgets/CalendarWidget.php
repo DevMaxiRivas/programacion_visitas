@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Enums\EnumVisitaEstado;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 
 use App\Filament\Resources\VisitaResource;
@@ -125,8 +126,7 @@ class CalendarWidget extends FullCalendarWidget
                     'start' => $visita->fecha_visita,
                     'end' => $visita->fecha_visita,
                     'url' => VisitaResource::getUrl(name: 'edit', parameters: ['record' => $visita]),
-                    'shouldOpenUrlInNewTab' => true,
-                    'color' => Visita::COLORES_ESTADOS[$visita->estado],
+                    'color' => $visita->estado->color(),
                 ]
             )
             ->all();

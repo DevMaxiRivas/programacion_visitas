@@ -16,6 +16,7 @@ class EditVisita extends EditRecord
         if (User::actual()->rol == 'admin') {
             return [
                 Actions\DeleteAction::make(),
+                Actions\ViewAction::make()
             ];
         } else {
             return [];

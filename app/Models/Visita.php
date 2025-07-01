@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use App\Enums\EnumVisitaEstado;
 
 class Visita extends Model
 {
@@ -18,7 +19,9 @@ class Visita extends Model
         'fecha_visita',
         'hora_visita',
         'url_archivos',
+        'nombres_archivos_originales',
         'url_imagenes',
+        'nombres_imagenes_originales',
         'observaciones',
         'indicaciones',
         'estado'
@@ -29,18 +32,7 @@ class Visita extends Model
         'nombres_archivos_originales' => 'array',
         'url_imagenes' => 'array',
         'nombres_imagenes_originales' => 'array',
-    ];
-
-    const ESTADOS = [
-        'pendiente' => 0,
-        'completada' => 1,
-        'cancelada' => 2,
-    ];
-
-    const COLORES_ESTADOS = [
-        0 => '#0069D9',
-        1 => '#218838',
-        2 => '#C82333',
+        'estado' => EnumVisitaEstado::class,
     ];
 
     public function vendedor()
