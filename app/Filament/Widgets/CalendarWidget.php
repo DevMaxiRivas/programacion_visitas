@@ -2,7 +2,6 @@
 
 namespace App\Filament\Widgets;
 
-use App\Enums\EnumVisitaEstado;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 
 use App\Filament\Resources\VisitaResource;
@@ -26,10 +25,10 @@ class CalendarWidget extends FullCalendarWidget
 
     protected function obtenerAccionesPorRole(): array
     {
-        if (User::actual()->rol == 'admin') {
+        if (User::actual()->rol->is_admin()) {
             return [
                 Actions\CreateAction::make()
-            ];
+            ];  
         } else {
             return [];
         }
@@ -55,7 +54,7 @@ class CalendarWidget extends FullCalendarWidget
 
     protected function obtenerFormularioPorRol(): array
     {
-        if (User::actual()->rol == 'admin') {
+        if (User::actual()->rol->is_admin()) {
             return [
                 Forms\Components\Grid::make()
                     ->schema([
@@ -110,7 +109,7 @@ class CalendarWidget extends FullCalendarWidget
             ->where('fecha_visita', '>=', $fetchInfo['start'])
             ->where('fecha_visita', '<=', $fetchInfo['end']);
 
-        if (User::actual()->rol != 'admin') {
+        if (!User::actual()->rol->is_admin()) {
             return $query->where('vendedor_id', User::actual()->id);
         }
 

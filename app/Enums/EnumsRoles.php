@@ -35,6 +35,11 @@ enum EnumsRoles: string implements HasLabel, HasColor
         };
     }
 
+    public function is_admin(): bool
+    {
+        return $this === self::ADMIN;
+    }
+
 }
     
 {
