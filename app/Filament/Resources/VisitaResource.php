@@ -152,7 +152,11 @@ class VisitaResource extends Resource
                 Tables\Columns\TextColumn::make('estado')
                     ->label('Estado')
                     ->sortable()
-                    ->badge()
+                    ->badge(),
+                Tables\Columns\TextColumn::make('vendedor.name')
+                ->label('Vendedor')
+                ->default('N/A')
+                ->sortable(),
             ])
             ->defaultSort('fecha_visita', 'desc')
             ->filters([

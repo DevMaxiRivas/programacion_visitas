@@ -28,4 +28,9 @@ class Cliente extends Model
     {
         return $this->hasMany(Visita::class, 'cliente_id');
     }
+
+    public function cantidad_visitas()
+    {
+        return $this->visitas()->count();
+    }
 }
