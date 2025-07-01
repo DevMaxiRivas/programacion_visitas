@@ -16,10 +16,15 @@ Route::view('dashboard', 'dashboard')
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
-
+    
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 });
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('storage/visitas/archivos/{file}', [\App\Http\Controllers\VisitaController::class, 'listaArchivos'])
+//         ->name('visitas.archivos');
+// });
 
 require __DIR__.'/auth.php';

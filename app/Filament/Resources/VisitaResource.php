@@ -88,10 +88,11 @@ class VisitaResource extends Resource
                 ->multiple()
                 ->acceptedFileTypes(['image/*'])
                 ->maxSize(10240) // 10 MB
-                ->disk('public')
+                ->disk('local')
                 ->directory(function (Get $get) {
                     return 'visitas\\imagenes\\' . Cliente::find($get('cliente_id'))->codigo ?? 'sin_cliente';
                 })
+                ->downloadable()
                 ->columnSpanFull()
                 ->previewable(false),
             Forms\Components\RichEditor::make('observaciones')
@@ -225,6 +226,7 @@ class VisitaResource extends Resource
             'create' => Pages\CreateVisita::route('/crear'),
             'view' => Pages\ViewVisita::route('/{record}'),
             'edit' => Pages\EditVisita::route('/{record}/editar'),
+            'lista_archivos' => Pages\ListaArchivos::route('/{record}/archivos'),
         ];
     }
 }
