@@ -20,6 +20,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+use Illuminate\Support\HtmlString;
+
 class VisitaResource extends Resource
 {
     protected static ?string $model = Visita::class;
@@ -195,9 +197,24 @@ class VisitaResource extends Resource
                 TextEntry::make('updated_at')
                     ->label('Fecha de Actualización')
                     ->dateTime(),
-                ImageEntry::make('images_path')
+                TextEntry::make('indicaciones')
+                    ->label('Indicaciones')
+                    ->html()
+                    ->columnSpanFull(),
+                TextEntry::make('observaciones')
+                    ->label('Observaciones')
+                    // ->html()
+                    ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
+                    ->columnSpanFull(),
+                ImageEntry::make('url_imagenes')
+                    ->label('Imagenes Adjuntas')
                     ->visibility('private')
-                    ->defaultImageUrl(url('https://i.pinimg.com/736x/82/47/0b/82470b4ed44c3edacfcd4201e2297050.jpg'))
+                    ->size(400)
+                    ->columnSpanFull(),
+                TextEntry::make('url_archivos')
+                    ->label('Cantidad de Archivos Adjuntos')
+                    ->formatStateUsing(fn (string $state): string => $state ? count(explode(',', $state)) : '0')
+                    ->default('0'),
             ]);
     }
 
