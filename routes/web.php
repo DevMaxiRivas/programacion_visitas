@@ -22,9 +22,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 });
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('storage/visitas/archivos/{file}', [\App\Http\Controllers\VisitaController::class, 'listaArchivos'])
-//         ->name('visitas.archivos');
-// });
+Route::middleware(['auth'])->group(function () {
+    // Route::get('visitas/archivos/{codigo_cliente}/{nombre_archivo}', [\App\Http\Controllers\VisitaController::class, 'listaArchivos'])
+    //     ->name('visitas.archivos');
+    Route::get('visita/{visita}/imagenes/{indice_imagen}', [\App\Http\Controllers\VisitaController::class, 'obtener_imagenes'])
+        ->name('visita.imagen');
+});
 
 require __DIR__.'/auth.php';

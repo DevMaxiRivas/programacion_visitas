@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Enums\EnumVisitaEstado;
+use Illuminate\Support\Facades\Log;
 
 class Visita extends Model
 {
@@ -45,8 +46,8 @@ class Visita extends Model
         return $this->belongsTo(Cliente::class, 'cliente_id');
     }
 
-    public function scopePendientes($query)
+    public function lista_imagenes(): array
     {
-        return $query->where('estado', 'pendiente');
+        return $this->nombres_imagenes_originales;
     }
 }
