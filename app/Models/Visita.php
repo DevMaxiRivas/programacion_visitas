@@ -48,10 +48,10 @@ class Visita extends Model
 
     public function lista_imagenes(): array
     {
-        return $this->nombres_imagenes_originales;
+        return $this->nombres_imagenes_originales ?? [];
     }
     public function lista_archivos(): array
     {
-        return $this->nombres_archivos_originales;
+        return $this->nombres_archivos_originales ?? [];
     }
 }

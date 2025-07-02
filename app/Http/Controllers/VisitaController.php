@@ -11,8 +11,6 @@ class VisitaController extends Controller
 {
     public function obtener_imagenes(Request $request, Visita $visita, $indice)
     {
-        Log::info('visita: ' . $visita);
-        Log::info('Indice de imagen solicitada: ' . $indice);
         $path = $visita->url_imagenes[$indice] ?? null;
 
         // Devolver el archivo como respuesta
@@ -24,8 +22,6 @@ class VisitaController extends Controller
     }
     public function obtener_archivos(Request $request, Visita $visita, $indice)
     {
-        Log::info('visita: ' . $visita);
-        Log::info('Indice de imagen solicitada: ' . $indice);
         $path = $visita->url_archivos[$indice] ?? null;
 
         // Devolver el archivo como respuesta

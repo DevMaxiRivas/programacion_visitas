@@ -16,12 +16,11 @@ class ViewVisita extends ViewRecord
     {
         return [
             Actions\Action::make('volver')
-            ->label('Volver')
-            ->url(VisitaResource::getUrl('index'))
-                ->color('secondary')
+                ->label('Volver')
+                ->url(VisitaResource::getUrl('index'))
                 ->requiresConfirmation(false),
-                Actions\EditAction::make(),
-                Actions\Action::make('descargar_archivos')
+            Actions\EditAction::make(),
+            Actions\Action::make('descargar_archivos')
                 ->label('Listado de Archivos')
                 // ->url(fn () => route('visitas.archivos', ['visita' => $this->record->id]))
                 ->url(VisitaResource::getUrl('lista_archivos', ['record' => $this->record]) ?? '#')
