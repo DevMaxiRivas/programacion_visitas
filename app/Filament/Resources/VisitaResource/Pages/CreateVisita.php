@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateVisita extends CreateRecord
 {
     protected static string $resource = VisitaResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

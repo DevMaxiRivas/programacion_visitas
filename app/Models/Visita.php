@@ -54,4 +54,15 @@ class Visita extends Model
     {
         return $this->nombres_archivos_originales ?? [];
     }
+
+    public function es_editable(): bool
+    {
+        // Verifica si la visita está pendiente o en proceso
+        if (User::actual()->id == $this->vendedor_id && $this->estado === EnumVisitaEstado::PENDIENTE) {
+            return true;
+        }
+
+        // Si la visita ya está completada o cancelada, no es editable
+        return false;
+    }
 }
