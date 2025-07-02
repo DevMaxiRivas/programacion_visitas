@@ -25,8 +25,10 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     // Route::get('visitas/archivos/{codigo_cliente}/{nombre_archivo}', [\App\Http\Controllers\VisitaController::class, 'listaArchivos'])
     //     ->name('visitas.archivos');
-    Route::get('visita/{visita}/imagenes/{indice_imagen}', [\App\Http\Controllers\VisitaController::class, 'obtener_imagenes'])
+    Route::get('visita/{visita}/imagen/{indice}', [\App\Http\Controllers\VisitaController::class, 'obtener_imagenes'])
         ->name('visita.imagen');
+    Route::get('visita/{visita}/archivo/{indice}', [\App\Http\Controllers\VisitaController::class, 'obtener_archivos'])
+        ->name('visita.archivo');
 });
 
 require __DIR__.'/auth.php';

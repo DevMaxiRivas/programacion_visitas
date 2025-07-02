@@ -9,20 +9,30 @@ use Illuminate\Support\Facades\Storage;
 
 class VisitaController extends Controller
 {
-    public function obtener_imagenes(Request $request, visita $visita, $indice_imagen)
+    public function obtener_imagenes(Request $request, visita $visita, $indice)
     {
         Log::info('visita: ' . $visita);
-        Log::info('Indice de imagen solicitada: ' . $indice_imagen);
-        $path = $visita->url_imagenes[$indice_imagen] ?? null;
+        Log::info('Indice de imagen solicitada: ' . $indice);
+        $path = $visita->url_imagenes[$indice] ?? null;
 
         // Devolver el archivo como respuesta
         $url = Storage::disk('local')->temporaryUrl(
             $path, now()->addMinutes(5)
         );
 
-        return response()->json([
-            // 'url' => asset('storage/visitas/imagenes/' . $param),
-            'imagen_url' => $url ?? null,
-        ]);
+        return redirect($url);
+    }
+    public function obtener_archivos(Request $request, visita $visita, $indice)
+    {
+        Log::info('visita: ' . $visita);
+        Log::info('Indice de imagen solicitada: ' . $indice);
+        $path = $visita->url_archivos[$indice] ?? null;
+
+        // Devolver el archivo como respuesta
+        $url = Storage::disk('local')->temporaryUrl(
+            $path, now()->addMinutes(5)
+        );
+
+        return redirect($url);
     }
 }

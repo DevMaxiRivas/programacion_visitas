@@ -207,11 +207,15 @@ class VisitaResource extends Resource
                     // ->html()
                     ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
                     ->columnSpanFull(),
-                ImageEntry::make('url_imagenes')
-                    ->label('Imagenes Adjuntas')
-                    ->visibility('private')
-                    ->size(400)
-                    ->columnSpanFull(),
+                // ImageEntry::make('url_imagenes')
+                //     ->label('Imagenes Adjuntas')
+                //     ->visibility('private')
+                //     ->size(400)
+                //     ->columnSpanFull(),
+                TextEntry::make('url_imagenes')
+                    ->label('Cantidad de Archivos Adjuntos')
+                    ->formatStateUsing(fn (string $state): string => $state ? count(explode(',', $state)) : '0')
+                    ->default('0'),
                 TextEntry::make('url_archivos')
                     ->label('Cantidad de Archivos Adjuntos')
                     ->formatStateUsing(fn (string $state): string => $state ? count(explode(',', $state)) : '0')

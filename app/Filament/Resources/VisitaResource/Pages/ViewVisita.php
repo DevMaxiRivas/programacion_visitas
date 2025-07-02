@@ -22,7 +22,7 @@ class ViewVisita extends ViewRecord
                 ->requiresConfirmation(false),
                 Actions\EditAction::make(),
                 Actions\Action::make('descargar_archivos')
-                ->label('Descargar Archivos')
+                ->label('Listado de Archivos')
                 // ->url(fn () => route('visitas.archivos', ['visita' => $this->record->id]))
                 ->url(VisitaResource::getUrl('lista_archivos', ['record' => $this->record]) ?? '#')
                 ->color('primary')
