@@ -40,7 +40,9 @@
                         wire:key="YZ2txgvzIr8XZY3PceMc.table.record.58.column.cliente.razon_social">
                         <div class="fi-ta-col-wrp">
                             <a href="http://webserver:8085/panel/visitas/58"
-                                class="flex w-full disabled:pointer-events-none justify-start text-start">
+                                class="flex w-full disabled:pointer-events-none justify-start text-start"
+                                target="_blank"
+                                >
                                 <div class="fi-ta-text grid w-full gap-y-1 px-3 py-4">
                                     <div class="flex ">
                                         <div class="flex max-w-max" style="">
@@ -62,7 +64,9 @@
                         <div class="whitespace-nowrap px-3 py-4">
                             <div class="fi-ta-actions flex shrink-0 items-center gap-3 justify-end">
                                 <a href="{{ route('visita.imagen', [$record, $i]) }}"
-                                    class="fi-link group/link relative inline-flex items-center justify-center outline-none fi-size-sm fi-link-size-sm gap-1  fi-color-gray fi-ac-action fi-ac-link-action">
+                                    class="fi-link group/link relative inline-flex items-center justify-center outline-none fi-size-sm fi-link-size-sm gap-1  fi-color-gray fi-ac-action fi-ac-link-action"
+                                    target="_blank"
+                                    >
                                     <svg class="fi-link-icon h-4 w-4 text-gray-400 dark:text-gray-500"
                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                         aria-hidden="true" data-slot="icon">
@@ -80,7 +84,7 @@
                                 @php
                                     $i++;
                                 @endphp
-                                <a href="{{ route('visita.imagen', [$record, $i]) }}"
+                                <a href="{{ route('visita.imagen', [$record, $i]) }}" target="_blank"
                                     class="fi-link group/link relative inline-flex items-center justify-center outline-none fi-size-sm fi-link-size-sm gap-1 fi-color-custom fi-color-primary fi-ac-action fi-ac-link-action">
                                     {{-- <svg style="--c-400:var(--primary-400);--c-600:var(--primary-600);"
                                         class="fi-link-icon h-4 w-4 text-custom-600 dark:text-custom-400"
@@ -148,8 +152,10 @@
                     <td class="fi-ta-cell p-0 first-of-type:ps-1 last-of-type:pe-1 sm:first-of-type:ps-3 sm:last-of-type:pe-3 fi-table-cell-cliente.razon-social"
                         wire:key="YZ2txgvzIr8XZY3PceMc.table.record.58.column.cliente.razon_social">
                         <div class="fi-ta-col-wrp">
-                            <a href="http://webserver:8085/panel/visitas/58"
-                                class="flex w-full disabled:pointer-events-none justify-start text-start">
+                            <a href="{{ route('visita.archivo', [$record, $i]) }}"
+                                class="flex w-full disabled:pointer-events-none justify-start text-start"
+                                target="_blank"
+                                >
                                 <div class="fi-ta-text grid w-full gap-y-1 px-3 py-4">
                                     <div class="flex ">
                                         <div class="flex max-w-max" style="">
@@ -171,7 +177,9 @@
                         <div class="whitespace-nowrap px-3 py-4">
                             <div class="fi-ta-actions flex shrink-0 items-center gap-3 justify-end">
                                 <a href="{{ route('visita.archivo', [$record, $i]) }}"
-                                    class="fi-link group/link relative inline-flex items-center justify-center outline-none fi-size-sm fi-link-size-sm gap-1  fi-color-gray fi-ac-action fi-ac-link-action">
+                                    class="fi-link group/link relative inline-flex items-center justify-center outline-none fi-size-sm fi-link-size-sm gap-1  fi-color-gray fi-ac-action fi-ac-link-action"
+                                    target="_blank"
+                                    >
                                     <svg class="fi-link-icon h-4 w-4 text-gray-400 dark:text-gray-500"
                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                         aria-hidden="true" data-slot="icon">
@@ -189,7 +197,7 @@
                                 @php
                                     $i++;
                                 @endphp
-                                <a href="{{ route('visita.archivo', [$record, $i]) }}"
+                                <a href="{{ route('visita.archivo', [$record, $i]) }}" target="_blank"
                                     class="fi-link group/link relative inline-flex items-center justify-center outline-none fi-size-sm fi-link-size-sm gap-1 fi-color-custom fi-color-primary fi-ac-action fi-ac-link-action">
                                     {{-- <svg style="--c-400:var(--primary-400);--c-600:var(--primary-600);"
                                         class="fi-link-icon h-4 w-4 text-custom-600 dark:text-custom-400"
