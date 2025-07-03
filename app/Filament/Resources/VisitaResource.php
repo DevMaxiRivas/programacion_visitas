@@ -8,6 +8,7 @@ use App\Filament\Resources\VisitaResource\RelationManagers;
 use App\Models\Cliente;
 use App\Models\User;
 use App\Models\Visita;
+
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -140,6 +141,7 @@ class VisitaResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(Visita::obtener_visitas())
             ->columns([
                 Tables\Columns\TextColumn::make('cliente.razon_social')
                     ->label('Cliente')
@@ -207,11 +209,6 @@ class VisitaResource extends Resource
                     // ->html()
                     ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
                     ->columnSpanFull(),
-                // ImageEntry::make('url_imagenes')
-                //     ->label('Imagenes Adjuntas')
-                //     ->visibility('private')
-                //     ->size(400)
-                //     ->columnSpanFull(),
                 TextEntry::make('url_imagenes')
                     ->label('Cantidad de Archivos Adjuntos')
                     ->formatStateUsing(fn (string $state): string => $state ? count(explode(',', $state)) : '0')
@@ -233,4 +230,10 @@ class VisitaResource extends Resource
             'lista_archivos' => Pages\ListaArchivos::route('/{record}/archivos'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) Visita::contar_visitas_pendientes();
+    }
+
 }

@@ -10,7 +10,10 @@ class ViewVisita extends ViewRecord
 {
     protected static string $resource = VisitaResource::class;
 
-
+    protected static string | array $routeMiddleware = [
+        'auth', // Middleware for authentication on this page
+        'visitas.visibles', // Middleware to check if the visit can be modified
+    ];
 
     protected function getHeaderActions(): array
     {

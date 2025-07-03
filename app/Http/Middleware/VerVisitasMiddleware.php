@@ -10,7 +10,7 @@ use App\Models\Visita;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
-class ModificarVisitasMiddleware
+class VerVisitasMiddleware
 {
     /**
      * Handle an incoming request.
@@ -27,7 +27,7 @@ class ModificarVisitasMiddleware
             return response()->view('errors.404', [], 404);
         }
 
-        if (!empty($visita) && (User::actual()->rol->is_admin() || Visita::find($visita)->es_editable())) {
+        if (!empty($visita) && (User::actual()->rol->is_admin() || Visita::find($visita)->es_visible())) {
             return $next($request);
         }
         

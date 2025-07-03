@@ -14,10 +14,6 @@ class EditVisita extends EditRecord
         'auth', // Middleware for authentication on this page
         'visitas.modificables', // Middleware to check if the visit can be modified
     ];
-    // protected static string | array $middlewares = [
-    //     'auth', // Middleware for authentication on this page
-    //     'visitas.modificables', // Middleware to check if the visit can be modified
-    // ];
 
     protected function getHeaderActions(): array
     {
