@@ -69,7 +69,8 @@ class Visita extends Model
     public function es_editable(): bool
     {
         // Verifica si la visita está pendiente o en proceso
-        if (User::actual()->id === $this->vendedor_id) {
+        if (User::actual()->id === $this->vendedor_id && 
+            $this->estado === EnumVisitaEstado::PENDIENTE && now()->format('Y-m-d') >= $this->fecha_visita) {
             return true;
         }
 

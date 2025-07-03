@@ -196,7 +196,7 @@ class VisitaResource extends Resource
                     ->dateTime(),
                 TextEntry::make('fecha_visita')
                     ->label('Fecha de Visita')
-                    ->dateTime(),
+                    ->date(),
                 TextEntry::make('updated_at')
                     ->label('Fecha de Actualización')
                     ->dateTime(),

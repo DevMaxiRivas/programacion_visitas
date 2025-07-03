@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\VisitaResource\Pages;
 
 use App\Filament\Resources\VisitaResource;
+use App\Models\User;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
 
@@ -17,12 +18,11 @@ class ViewVisita extends ViewRecord
 
     protected function getHeaderActions(): array
     {
-        return [
+        $acciones = [
             Actions\Action::make('volver')
                 ->label('Volver')
                 ->url(VisitaResource::getUrl('index'))
                 ->requiresConfirmation(false),
-            Actions\EditAction::make(),
             Actions\Action::make('descargar_archivos')
                 ->label('Listado de Archivos')
                 // ->url(fn () => route('visitas.archivos', ['visita' => $this->record->id]))
@@ -30,5 +30,11 @@ class ViewVisita extends ViewRecord
                 ->color('primary')
                 ->requiresConfirmation(false)
         ];
+
+        if (User::actual()->rol->is_admin() || $this->record->es_editable()) {
+            array_push($acciones, Actions\EditAction::make());
+        }
+
+        return $acciones;
     }
 }
