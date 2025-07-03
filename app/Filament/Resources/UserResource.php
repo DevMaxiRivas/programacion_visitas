@@ -12,7 +12,12 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
+// Imports
+use App\Filament\Imports\UserImporter;
+use Filament\Tables\Actions\ImportAction;
+
 use App\Enums\EnumsRoles;
+
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
@@ -55,8 +60,8 @@ class UserResource extends Resource
                     ->required()
                     ->minLength(8)
                     ->maxLength(255)
-                    ->dehydrateStateUsing(fn ($state) => bcrypt($state))
-                    ->visible(fn ($record) => empty($record->id)),
+                    ->dehydrateStateUsing(fn($state) => bcrypt($state))
+                    ->visible(fn($record) => empty($record->id)),
                 Forms\Components\Select::make('rol')
                     ->options(EnumsRoles::class)
             ]);
@@ -70,15 +75,24 @@ class UserResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nombre')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('Correo Electrónico')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('cuil')
+                    ->label('CUIL')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('codigo_empleado')
+                    ->label('Código de Empleado')
+                    ->default('N/A')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Fecha de Creación')
                     ->dateTime()
                     ->sortable(),
             ])
@@ -106,8 +120,8 @@ class UserResource extends Resource
     {
         return [
             'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'create' => Pages\CreateUser::route('/crear'),
+            'edit' => Pages\EditUser::route('/{record}/editar'),
         ];
     }
 }

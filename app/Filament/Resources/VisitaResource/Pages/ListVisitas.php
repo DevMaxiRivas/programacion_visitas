@@ -24,7 +24,7 @@ class ListVisitas extends ListRecords
     public function getTabs(): array
     {
         return [
-            null => Tab::make('All'),
+            null => Tab::make('Todos'),
             'pendiente' => Tab::make()->query(fn ($query) => Visita::obtener_visitas_por_estado($query, EnumVisitaEstado::PENDIENTE)),
             'completada' => Tab::make()->query(fn ($query) => Visita::obtener_visitas_por_estado($query, EnumVisitaEstado::COMPLETADA)),
             'cancelada' => Tab::make()->query(fn ($query) => Visita::obtener_visitas_por_estado($query, EnumVisitaEstado::CANCELADA)),

@@ -29,6 +29,9 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'cuil',
+        'codigo_empleado',
+        'email_verified_at',
         'rol'
     ];
 
@@ -91,5 +94,10 @@ class User extends Authenticatable implements FilamentUser
     public function getFilamentAvatarUrl(): ?string
     {
         return config('app.url') . '/imagenes/perfiles/profile.png';
+    }
+
+    public static function obtener_usuarios_por_rol($query, $rol)
+    {
+        return $query->where('rol', $rol);
     }
 }

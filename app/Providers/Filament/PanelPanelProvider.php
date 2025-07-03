@@ -21,6 +21,10 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 // Calendar
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
+// Configuraciones menu superior derecho
+use App\Filament\Pages\Settings;
+use Filament\Navigation\MenuItem;
+
 class PanelPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -35,8 +39,8 @@ class PanelPanelProvider extends PanelProvider
             ->path('panel')
             ->login(CustomLogin::class)
             ->loginRouteSlug('iniciar-sesion')
-            ->registration()
-            ->registrationRouteSlug('registro')
+            // ->registration()
+            // ->registrationRouteSlug('registro')
             ->passwordReset()
             ->passwordResetRouteSlug('restablecer-contraseña')
             ->colors([
@@ -67,6 +71,13 @@ class PanelPanelProvider extends PanelProvider
                 FilamentFullCalendarPlugin::make()
                 ->selectable()
             )
+            ->userMenuItems([
+            MenuItem::make()
+                ->label('Mi perfil')
+                ->url('#')
+                ->icon('heroicon-o-cog-6-tooth'),
+            // ...
+        ]);
         ;
     }
 }

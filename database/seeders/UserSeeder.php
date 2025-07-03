@@ -29,6 +29,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'CURIOTTO FEDERICO',
                 'email' => 'test4@example.com',
+                'codigo_empleado' => 51,
                 'cuil' => '12345678902',
                 'password' => Hash::make('hierronort2609'),
             ]
@@ -37,6 +38,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'CUELLAR EDUARDO',
                 'email' => 'test2@example.com',
+                'codigo_empleado' => 35,
                 'cuil' => '12345678904',
                 'password' => Hash::make('hierronort2609'),
             ]
@@ -45,6 +47,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'THAMES LUIS',
                 'email' => 'test3@example.com',
+                'codigo_empleado' => 39,
                 'cuil' => '12345678903',
                 'password' => Hash::make('hierronort2609'),
             ]

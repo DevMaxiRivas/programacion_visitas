@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->unsignedBigInteger('cuil')->unique();
+            $table->unsignedSmallInteger('codigo_empleado')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('rol')->default('vendedor');
