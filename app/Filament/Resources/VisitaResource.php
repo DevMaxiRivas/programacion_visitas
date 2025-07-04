@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Illuminate\Support\HtmlString;
 
+use App\Validation\Messages;
+
 class VisitaResource extends Resource
 {
     protected static ?string $model = Visita::class;
@@ -43,7 +45,8 @@ class VisitaResource extends Resource
                         $set('vendedor_id', Cliente::find($get('cliente_id'))->vendedor_id ?? null);
                     }
                 )
-                ->required(),
+                ->required()
+                ->validationMessages(Messages::getMessagesForFields([ 'required' => [] ],'cliente')),
             Forms\Components\Hidden::make('vendedor_id'),
             Forms\Components\DatePicker::make('fecha_visita')
                 ->default(now()->format('Y-m-d'))
@@ -60,12 +63,14 @@ class VisitaResource extends Resource
                     },
                 ])
                 ->required()
+                ->validationMessages(Messages::getMessagesForFields([ 'required' => [] ],'fecha de visita'))
                 ->label('Fecha de visita'),
             Forms\Components\Select::make('estado')
                 ->label('Estado')
                 ->options(EnumVisitaEstado::class)
                 ->default(EnumVisitaEstado::PENDIENTE)
-                ->required(),
+                ->required()
+                ->validationMessages(Messages::getMessagesForFields([ 'required' => [] ],'estado')),
             Forms\Components\RichEditor::make('indicaciones')
                 ->label('Indicaciones')
                 ->columnSpanFull()
