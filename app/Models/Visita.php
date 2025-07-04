@@ -40,8 +40,6 @@ class Visita extends Model
         'fecha_visita',
     ];
 
-    protected $timezone = 'America/Argentina/Buenos_Aires';
-
     public function vendedor()
     {
         return $this->belongsTo(User::class, 'vendedor_id');
