@@ -92,7 +92,7 @@ class VisitaResource extends Resource
                 ->storeFileNamesIn('nombres_archivos_originales')
                 ->multiple()
                 ->acceptedFileTypes(['application/pdf'])
-                ->maxSize(10240) // 10 MB
+                ->maxSize(20480) // 20 MB
                 ->disk('local')
                 ->directory(function (Get $get) {
                     return 'visitas\\archivos\\' . Cliente::find($get('cliente_id'))->codigo ?? 'sin_cliente';
