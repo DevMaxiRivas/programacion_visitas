@@ -28,13 +28,19 @@ class Visita extends Model
         'estado'
     ];
 
-    protected$casts = [
+    protected $casts = [
         'url_archivos' => 'array',
         'nombres_archivos_originales' => 'array',
         'url_imagenes' => 'array',
         'nombres_imagenes_originales' => 'array',
         'estado' => EnumVisitaEstado::class,
     ];
+
+    protected $dates = [
+        'fecha_visita',
+    ];
+
+    protected $timezone = 'America/Argentina/Buenos_Aires';
 
     public function vendedor()
     {
@@ -65,12 +71,15 @@ class Visita extends Model
         // Si la visita no es del vendedor actual, no es visible
         return false;
     }
-    
+
     public function es_editable(): bool
     {
         // Verifica si la visita está pendiente o en proceso
-        if (User::actual()->id === $this->vendedor_id && 
-            $this->estado === EnumVisitaEstado::PENDIENTE && now()->format('Y-m-d') >= $this->fecha_visita) {
+        if (
+            User::actual()->id === $this->vendedor_id &&
+            $this->estado->value === EnumVisitaEstado::PENDIENTE &&
+            now()->format('Y-m-d') >= $this->fecha_visita
+        ) {
             return true;
         }
 
@@ -83,8 +92,7 @@ class Visita extends Model
         $query = Visita::query();
 
         // Filtra las visitas por estado aprobado
-        if(User::actual()->rol->is_admin())
-        {
+        if (User::actual()->rol->is_admin()) {
             return $query;
         }
 

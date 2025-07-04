@@ -6,6 +6,7 @@ use App\Filament\Resources\VisitaResource;
 use App\Models\User;
 use Filament\Actions;
 use Filament\Resources\Pages\ViewRecord;
+use Illuminate\Support\Facades\Log;
 
 class ViewVisita extends ViewRecord
 {
@@ -25,7 +26,6 @@ class ViewVisita extends ViewRecord
                 ->requiresConfirmation(false),
             Actions\Action::make('descargar_archivos')
                 ->label('Listado de Archivos')
-                // ->url(fn () => route('visitas.archivos', ['visita' => $this->record->id]))
                 ->url(VisitaResource::getUrl('lista_archivos', ['record' => $this->record]) ?? '#')
                 ->color('primary')
                 ->requiresConfirmation(false)
