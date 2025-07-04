@@ -50,7 +50,6 @@ class VisitaResource extends Resource
             Forms\Components\Hidden::make('vendedor_id'),
             Forms\Components\DatePicker::make('fecha_visita')
                 ->default(now()->format('Y-m-d'))
-                // ->minDate(now()->format('Y-m-d'))
                 ->rules([
                     fn(Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
                         if (
@@ -104,7 +103,7 @@ class VisitaResource extends Resource
                 ->storeFileNamesIn('nombres_imagenes_originales')
                 ->multiple()
                 ->acceptedFileTypes(['image/*'])
-                ->maxSize(10240) // 10 MB
+                ->maxSize(20480) // 20 MB
                 ->disk('local')
                 ->directory(function (Get $get) {
                     return 'visitas\\imagenes\\' . Cliente::find($get('cliente_id'))->codigo ?? 'sin_cliente';
