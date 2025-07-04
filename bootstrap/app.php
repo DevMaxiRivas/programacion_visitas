@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'visitas.modificables' => \App\Http\Middleware\ModificarVisitasMiddleware::class,
             'visitas.visibles' => \App\Http\Middleware\VerVisitasMiddleware::class,
+            'rol' => \App\Http\Middleware\RolMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

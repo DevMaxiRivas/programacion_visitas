@@ -8,7 +8,7 @@ use App\Filament\Resources\VisitaResource\RelationManagers;
 use App\Models\Cliente;
 use App\Models\User;
 use App\Models\Visita;
-
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
@@ -47,7 +47,18 @@ class VisitaResource extends Resource
             Forms\Components\Hidden::make('vendedor_id'),
             Forms\Components\DatePicker::make('fecha_visita')
                 ->default(now()->format('Y-m-d'))
-                ->minDate(now()->format('Y-m-d'))
+                // ->minDate(now()->format('Y-m-d'))
+                ->rules([
+                    fn(Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
+                        if (
+                            empty($get('id')) &&
+                            !empty($get('fecha_visita')) &&
+                            $get('fecha_visita') < now()->format('Y-m-d')
+                        ) {
+                            $fail("La fecha de visita debe ser posterior a la fecha actual.");
+                        }
+                    },
+                ])
                 ->required()
                 ->label('Fecha de visita'),
             Forms\Components\Select::make('estado')
@@ -113,13 +124,14 @@ class VisitaResource extends Resource
                     'underline',
                     'undo',
                 ]),
+            Forms\Components\Hidden::make('id')
         ];
 
-        if (User::actual()->rol != 'admin') {
+        if (!User::actual()->rol->is_admin()) {
             $campos_a_desactivar = [
                 0,
-                1,
-                3
+                2,
+                4
             ];
 
             foreach ($campos_a_desactivar as $campo) {
@@ -130,7 +142,7 @@ class VisitaResource extends Resource
 
         return $listaComponentesFormulario;
     }
-    
+
     public static function form(Form $form): Form
     {
         return $form
@@ -148,16 +160,16 @@ class VisitaResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('fecha_visita')
-                ->label('Fecha de Visita')
-                ->date()
-                ->sortable(),
+                    ->label('Fecha de Visita')
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('estado')
                     ->label('Estado')
                     ->sortable()
                     ->badge(),
                 Tables\Columns\TextColumn::make('vendedor.name')
-                ->label('Vendedor')
-                ->sortable(),
+                    ->label('Vendedor')
+                    ->sortable(),
             ])
             ->defaultSort('fecha_visita', 'desc')
             ->filters([
@@ -207,15 +219,15 @@ class VisitaResource extends Resource
                 TextEntry::make('observaciones')
                     ->label('Observaciones')
                     // ->html()
-                    ->formatStateUsing(fn (string $state): HtmlString => new HtmlString($state))
+                    ->formatStateUsing(fn(string $state): HtmlString => new HtmlString($state))
                     ->columnSpanFull(),
                 TextEntry::make('url_imagenes')
                     ->label('Cantidad de Archivos Adjuntos')
-                    ->formatStateUsing(fn (string $state): string => $state ? count(explode(',', $state)) : '0')
+                    ->formatStateUsing(fn(string $state): string => $state ? count(explode(',', $state)) : '0')
                     ->default('0'),
                 TextEntry::make('url_archivos')
                     ->label('Cantidad de Archivos Adjuntos')
-                    ->formatStateUsing(fn (string $state): string => $state ? count(explode(',', $state)) : '0')
+                    ->formatStateUsing(fn(string $state): string => $state ? count(explode(',', $state)) : '0')
                     ->default('0'),
             ]);
     }
@@ -235,5 +247,4 @@ class VisitaResource extends Resource
     {
         return (string) Visita::contar_visitas_pendientes();
     }
-
 }

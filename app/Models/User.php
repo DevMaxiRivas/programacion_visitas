@@ -14,6 +14,7 @@ use App\Enums\EnumsRoles;
 
 // Filament
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -99,5 +100,12 @@ class User extends Authenticatable implements FilamentUser
     public static function obtener_usuarios_por_rol($query, $rol)
     {
         return $query->where('rol', $rol);
+    }
+
+    public function tiene_algun_rol($roles): bool
+    {   
+        return is_array($roles)
+            ? in_array($this->rol->value, $roles)
+            : $this->rol === $roles;
     }
 }

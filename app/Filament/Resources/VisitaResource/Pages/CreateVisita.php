@@ -12,11 +12,13 @@ class CreateVisita extends CreateRecord
 
     protected static string | array $routeMiddleware = [
         'auth', // Middleware for authentication on this page
-        'visitas.modificables', // Middleware to check if the visit can be modified
+        'rol:admin', // Middleware to check if the visit can be modified
     ];
 
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
     }
+
+
 }
