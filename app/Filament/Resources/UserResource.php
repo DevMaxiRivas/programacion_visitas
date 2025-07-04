@@ -17,6 +17,7 @@ use App\Filament\Imports\UserImporter;
 use Filament\Tables\Actions\ImportAction;
 
 use App\Enums\EnumsRoles;
+use Filament\Navigation\NavigationItem;
 
 class UserResource extends Resource
 {
@@ -32,7 +33,7 @@ class UserResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $navigationGroupIcon = 'heroicon-o-users';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $modelLabel = 'Usuario';
 
@@ -122,6 +123,16 @@ class UserResource extends Resource
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/crear'),
             'edit' => Pages\EditUser::route('/{record}/editar'),
+        ];
+    }
+
+    public static function getNavigationItems(): array
+    {
+        return [
+            NavigationItem::make(self::getNavigationLabel())
+                ->hidden(fn() => !User::actual()->rol->is_admin())  // Ocultar si el usuario no es admin
+                ->icon(self::$navigationIcon)
+                ->url(self::getUrl()),
         ];
     }
 }

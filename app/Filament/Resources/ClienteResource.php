@@ -9,6 +9,7 @@ use App\Models\Cliente;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Navigation\NavigationItem;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ImportAction;
@@ -85,6 +86,16 @@ class ClienteResource extends Resource
             'index' => Pages\ListClientes::route('/'),
             'create' => Pages\CreateCliente::route('/create'),
             'edit' => Pages\EditCliente::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getNavigationItems(): array
+    {
+        return [
+            NavigationItem::make('Clientes')
+                ->hidden(fn() => !User::actual()->rol->is_admin())  // Ocultar si el usuario no es admin
+                ->icon(self::$navigationIcon)
+                ->url(self::getUrl()),
         ];
     }
 }

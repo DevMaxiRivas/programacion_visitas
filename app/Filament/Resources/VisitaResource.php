@@ -23,7 +23,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Illuminate\Support\HtmlString;
 
+// Mensajes de validación
 use App\Validation\Messages;
+
+use Filament\Navigation\NavigationItem;
 
 class VisitaResource extends Resource
 {
@@ -46,7 +49,7 @@ class VisitaResource extends Resource
                     }
                 )
                 ->required()
-                ->validationMessages(Messages::getMessagesForFields([ 'required' => [] ],'cliente')),
+                ->validationMessages(Messages::getMessagesForFields(['required' => []], 'cliente')),
             Forms\Components\Hidden::make('vendedor_id'),
             Forms\Components\DatePicker::make('fecha_visita')
                 ->default(now()->format('Y-m-d'))
@@ -62,14 +65,14 @@ class VisitaResource extends Resource
                     },
                 ])
                 ->required()
-                ->validationMessages(Messages::getMessagesForFields([ 'required' => [] ],'fecha de visita'))
+                ->validationMessages(Messages::getMessagesForFields(['required' => []], 'fecha de visita'))
                 ->label('Fecha de visita'),
             Forms\Components\Select::make('estado')
                 ->label('Estado')
                 ->options(EnumVisitaEstado::class)
                 ->default(EnumVisitaEstado::PENDIENTE)
                 ->required()
-                ->validationMessages(Messages::getMessagesForFields([ 'required' => [] ],'estado')),
+                ->validationMessages(Messages::getMessagesForFields(['required' => []], 'estado')),
             Forms\Components\RichEditor::make('indicaciones')
                 ->label('Indicaciones')
                 ->columnSpanFull()
