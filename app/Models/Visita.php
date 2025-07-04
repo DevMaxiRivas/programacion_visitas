@@ -75,7 +75,7 @@ class Visita extends Model
         // Verifica si la visita está pendiente o en proceso
         if (
             User::actual()->id === $this->vendedor_id &&
-            $this->estado->value === EnumVisitaEstado::PENDIENTE &&
+            $this->estado === EnumVisitaEstado::PENDIENTE &&
             now()->format('Y-m-d') >= $this->fecha_visita
         ) {
             return true;
