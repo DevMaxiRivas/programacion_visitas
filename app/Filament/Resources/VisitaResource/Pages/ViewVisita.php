@@ -31,6 +31,8 @@ class ViewVisita extends ViewRecord
                 ->requiresConfirmation(false)
         ];
 
+        Log::info($this->record->es_editable() ? 'Es editable' : 'No es editable');
+
         if (User::actual()->rol->is_admin() || $this->record->es_editable()) {
             array_push($acciones, Actions\EditAction::make());
         }
