@@ -28,7 +28,7 @@ class CalendarWidget extends FullCalendarWidget
         if (User::actual()->rol->is_admin()) {
             return [
                 Actions\CreateAction::make()
-            ];  
+            ];
         } else {
             return [];
         }
@@ -64,33 +64,32 @@ class CalendarWidget extends FullCalendarWidget
                             ->preload()
                             ->live()
                             ->afterStateUpdated(
-                                fn(Get $get, callable $set) => 
-                                $get('cliente_id') ?     
-                                $set('vendedor_id', Cliente::find($get('cliente_id'))->vendedor_id) : null
+                                fn(Get $get, callable $set) =>
+                                $get('cliente_id') ?
+                                    $set('vendedor_id', Cliente::find($get('cliente_id'))->vendedor_id) : null
                             )
                             ->required(),
                         Forms\Components\Hidden::make('vendedor_id'),
                         Forms\Components\DatePicker::make('fecha_visita')
-                        ->minDate(now()->format('Y-m-d'))
-                        ->required()
-                        ,
+                            ->minDate(now()->format('Y-m-d'))
+                            ->required(),
                     ]),
-                    Forms\Components\RichEditor::make('indicaciones')
-                        ->columnSpanFull()
-                        ->toolbarButtons([
-                            'blockquote',
-                            'bold',
-                            'bulletList',
-                            'h2',
-                            'h3',
-                            'italic',
-                            'link',
-                            'orderedList',
-                            'redo',
-                            'strike',
-                            'underline',
-                            'undo',
-                        ]),
+                Forms\Components\RichEditor::make('indicaciones')
+                    ->columnSpanFull()
+                    ->toolbarButtons([
+                        'blockquote',
+                        'bold',
+                        'bulletList',
+                        'h2',
+                        'h3',
+                        'italic',
+                        'link',
+                        'orderedList',
+                        'redo',
+                        'strike',
+                        'underline',
+                        'undo',
+                    ]),
             ];
         } else {
             return [];
@@ -101,13 +100,23 @@ class CalendarWidget extends FullCalendarWidget
     {
         return $this->obtenerFormularioPorRol();
     }
-    
+
 
     protected function obtenerQueryVisitasPorRole(array $fetchInfo): \Illuminate\Database\Eloquent\Builder
     {
         $query = Visita::query()
             ->where('fecha_visita', '>=', $fetchInfo['start'])
-            ->where('fecha_visita', '<=', $fetchInfo['end']);
+            ->where('fecha_visita', '<=', $fetchInfo['end'])
+            ->orWhere('fecha_visita_reprogramada', '>=', $fetchInfo['start'])
+            ->where('fecha_visita_reprogramada', '<=', $fetchInfo['end'])
+            ;
+        // $query = Visita::query()
+        //     ->whereBetween('fecha_visita', $fetchInfo['start'], $fetchInfo['end'])
+        //     ->orWhereBetween('fecha_visita_reprogramada', $fetchInfo['start'], $fetchInfo['end'])
+        //     ;
+
+        Log::info('Query: ' . $query->toSql());
+        Log::info($query->getBindings());
 
         if (!User::actual()->rol->is_admin()) {
             return $query->where('vendedor_id', User::actual()->id);
@@ -120,13 +129,30 @@ class CalendarWidget extends FullCalendarWidget
     {
         return $this->obtenerQueryVisitasPorRole($fetchInfo)
             ->get()->map(
-                fn(Visita $visita) => [
-                    'title' => $visita->cliente->razon_social,
-                    'start' => $visita->fecha_visita,
-                    'end' => $visita->fecha_visita,
-                    'url' => VisitaResource::getUrl(name: 'view', parameters: ['record' => $visita]),
-                    'color' => $visita->estado->color(),
-                ]
+                // fn(Visita $visita) => [
+                //     'title' => $visita->cliente->razon_social,
+                //     'start' => $visita->fecha_visita_reprogramada ?? $visita->fecha_visita,
+                //     'end' => $visita->fecha_visita_reprogramada ?? $visita->fecha_visita,
+                //     'url' => VisitaResource::getUrl(name: 'view', parameters: ['record' => $visita]),
+                //     'color' => $visita->estado->color(),
+                // ]
+
+                function (Visita $visita) {
+                    if (!empty($visita->fecha_visita_reprogramada)) {
+                        Log::info('Visita: ' . $visita->id);
+                        Log::info($visita->fecha_visita_reprogramada);
+                    } else {
+                        Log::info($visita);
+                    }
+
+                    return [
+                        'title' => $visita->cliente->razon_social,
+                        'start' => $visita->fecha_visita_reprogramada ?? $visita->fecha_visita,
+                        'end' => $visita->fecha_visita_reprogramada ?? $visita->fecha_visita,
+                        'url' => VisitaResource::getUrl(name: 'view', parameters: ['record' => $visita]),
+                        'color' => $visita->estado->color(),
+                    ];
+                }
             )
             ->all();
     }

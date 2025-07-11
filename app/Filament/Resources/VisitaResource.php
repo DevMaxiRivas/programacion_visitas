@@ -89,6 +89,10 @@ class VisitaResource extends Resource
                 TextEntry::make('fecha_visita')
                     ->label('Fecha de Visita')
                     ->date(),
+                TextEntry::make('fecha_visita_reprogramada')
+                    ->label('Fecha de Visita Reprogramada')
+                    ->default('N/A')
+                    ->date(),
                 TextEntry::make('updated_at')
                     ->label('Fecha de Actualización')
                     ->dateTime(),

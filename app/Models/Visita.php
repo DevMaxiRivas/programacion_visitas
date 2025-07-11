@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Builder;
 
 // Filament
-use Filament\Forms; 
-use Filament\Tables; 
+use Filament\Forms;
+use Filament\Tables;
 use Filament\Forms\Get;
 
 class Visita extends Model
@@ -28,6 +28,7 @@ class Visita extends Model
         'vendedor_id',
         'cliente_id',
         'fecha_visita',
+        'fecha_visita_reprogramada',
         'hora_visita',
         'url_archivos',
         'nombres_archivos_originales',
@@ -48,6 +49,7 @@ class Visita extends Model
 
     protected $dates = [
         'fecha_visita',
+        'fecha_visita_reprogramada',
     ];
 
     public function vendedor()
@@ -85,7 +87,8 @@ class Visita extends Model
         // Verifica si la visita está pendiente o en proceso
         if (
             User::actual()->id === $this->vendedor_id &&
-            $this->estado === EnumVisitaEstado::PENDIENTE &&
+            ($this->estado === EnumVisitaEstado::PENDIENTE ||
+            $this->estado === EnumVisitaEstado::REPROGRAMADA) &&
             now()->format('Y-m-d') >= $this->fecha_visita
         ) {
             return true;
@@ -242,8 +245,17 @@ class Visita extends Model
                 ->label('Estado')
                 ->options(EnumVisitaEstado::class)
                 ->default(EnumVisitaEstado::PENDIENTE)
+                ->live()
                 ->required()
                 ->validationMessages(Messages::getMessagesForFields(['required' => []], 'estado')),
+            Forms\Components\DatePicker::make('fecha_visita_reprogramada')
+                ->default(now()->format('Y-m-d'))
+                ->label('Fecha de visita reprogramada')
+                ->visible(
+                    function (Get $get) {
+                        return $get('estado') == (string)EnumVisitaEstado::REPROGRAMADA->value;
+                    } 
+                ),
             Forms\Components\RichEditor::make('indicaciones')
                 ->label('Indicaciones')
                 ->columnSpanFull()
@@ -309,7 +321,7 @@ class Visita extends Model
             $campos_a_desactivar = [
                 0,
                 2,
-                4
+                5
             ];
 
             foreach ($campos_a_desactivar as $campo) {

@@ -56,6 +56,7 @@ class ListVisitas extends ListRecords
             'pendiente' => Tab::make()->query(fn($query) => Visita::obtener_visitas_por_estado($query, EnumVisitaEstado::PENDIENTE)),
             'completada' => Tab::make()->query(fn($query) => Visita::obtener_visitas_por_estado($query, EnumVisitaEstado::COMPLETADA)),
             'cancelada' => Tab::make()->query(fn($query) => Visita::obtener_visitas_por_estado($query, EnumVisitaEstado::CANCELADA)),
+            'reprogramada' => Tab::make()->query(fn($query) => Visita::obtener_visitas_por_estado($query, EnumVisitaEstado::REPROGRAMADA)),
         ];
     }
 }

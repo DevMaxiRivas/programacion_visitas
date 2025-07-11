@@ -10,6 +10,7 @@ enum EnumVisitaEstado: int implements HasLabel, HasColor
     case PENDIENTE = 0;
     case COMPLETADA = 1;
     case CANCELADA = 2;
+    case REPROGRAMADA = 3;
 
     public function getLabel(): string
     {
@@ -17,6 +18,7 @@ enum EnumVisitaEstado: int implements HasLabel, HasColor
             self::PENDIENTE => 'Pendiente',
             self::COMPLETADA => 'Completada',
             self::CANCELADA => 'Cancelada',
+            self::REPROGRAMADA => 'Reprogramada',
         };
     }
 
@@ -26,6 +28,7 @@ enum EnumVisitaEstado: int implements HasLabel, HasColor
             self::PENDIENTE => 'warning',
             self::COMPLETADA => 'success',
             self::CANCELADA => 'danger',
+            self::REPROGRAMADA => 'warning',
         };
     }
 
@@ -35,6 +38,7 @@ enum EnumVisitaEstado: int implements HasLabel, HasColor
             self::PENDIENTE => '#0069D9',
             self::COMPLETADA => '#218838',
             self::CANCELADA => '#C82333',
+            self::REPROGRAMADA => '#0069D9',
             default => '#C82333',
         };
     }
