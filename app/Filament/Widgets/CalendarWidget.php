@@ -20,12 +20,13 @@ use Illuminate\Support\Facades\Log;
 class CalendarWidget extends FullCalendarWidget
 
 {
-
     public Model | string | null $model = Visita::class;
+
+    public $user;
 
     protected function obtenerAccionesPorRole(): array
     {
-        if (User::actual()->rol->is_admin()) {
+        if (user::actual()->rol->is_admin()) {
             return [
                 Actions\CreateAction::make()
             ];
@@ -54,7 +55,7 @@ class CalendarWidget extends FullCalendarWidget
 
     protected function obtenerFormularioPorRol(): array
     {
-        if (User::actual()->rol->is_admin()) {
+        if ($this->user->rol->is_admin()) {
             return [
                 Forms\Components\Grid::make()
                     ->schema([
@@ -102,57 +103,36 @@ class CalendarWidget extends FullCalendarWidget
     }
 
 
-    protected function obtenerQueryVisitasPorRole(array $fetchInfo): \Illuminate\Database\Eloquent\Builder
+    protected function obtenerQueryVisitasPorRole(array $fetchInfo, User $user): \Illuminate\Database\Eloquent\Builder
     {
-        $query = Visita::query()
-            ->where('fecha_visita', '>=', $fetchInfo['start'])
+        $query = Visita::query();
+
+        if (!$user->rol->is_admin()) {
+            $query = $query->where('vendedor_id', $user->id);
+        }
+
+        $query = $query->where('fecha_visita', '>=', $fetchInfo['start'])
             ->where('fecha_visita', '<=', $fetchInfo['end'])
             ->orWhere('fecha_visita_reprogramada', '>=', $fetchInfo['start'])
             ->where('fecha_visita_reprogramada', '<=', $fetchInfo['end'])
             ;
-        // $query = Visita::query()
-        //     ->whereBetween('fecha_visita', $fetchInfo['start'], $fetchInfo['end'])
-        //     ->orWhereBetween('fecha_visita_reprogramada', $fetchInfo['start'], $fetchInfo['end'])
-        //     ;
-
-        Log::info('Query: ' . $query->toSql());
-        Log::info($query->getBindings());
-
-        if (!User::actual()->rol->is_admin()) {
-            return $query->where('vendedor_id', User::actual()->id);
-        }
 
         return $query;
     }
 
     public function fetchEvents(array $fetchInfo): array
     {
-        return $this->obtenerQueryVisitasPorRole($fetchInfo)
+        Log::info(!empty($this->user) ? $this->user : 'No hay user');
+
+        return $this->obtenerQueryVisitasPorRole($fetchInfo, $this->user ? User::find($this->user) : User::actual())
             ->get()->map(
-                // fn(Visita $visita) => [
-                //     'title' => $visita->cliente->razon_social,
-                //     'start' => $visita->fecha_visita_reprogramada ?? $visita->fecha_visita,
-                //     'end' => $visita->fecha_visita_reprogramada ?? $visita->fecha_visita,
-                //     'url' => VisitaResource::getUrl(name: 'view', parameters: ['record' => $visita]),
-                //     'color' => $visita->estado->color(),
-                // ]
-
-                function (Visita $visita) {
-                    if (!empty($visita->fecha_visita_reprogramada)) {
-                        Log::info('Visita: ' . $visita->id);
-                        Log::info($visita->fecha_visita_reprogramada);
-                    } else {
-                        Log::info($visita);
-                    }
-
-                    return [
-                        'title' => $visita->cliente->razon_social,
-                        'start' => $visita->fecha_visita_reprogramada ?? $visita->fecha_visita,
-                        'end' => $visita->fecha_visita_reprogramada ?? $visita->fecha_visita,
-                        'url' => VisitaResource::getUrl(name: 'view', parameters: ['record' => $visita]),
-                        'color' => $visita->estado->color(),
-                    ];
-                }
+                fn(Visita $visita) => [
+                    'title' => $visita->cliente->razon_social,
+                    'start' => $visita->fecha_visita_reprogramada ?? $visita->fecha_visita,
+                    'end' => $visita->fecha_visita_reprogramada ?? $visita->fecha_visita,
+                    'url' => VisitaResource::getUrl(name: 'view', parameters: ['record' => $visita]),
+                    'color' => $visita->estado->color(),
+                ]
             )
             ->all();
     }

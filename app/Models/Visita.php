@@ -49,7 +49,7 @@ class Visita extends Model
 
     protected $dates = [
         'fecha_visita',
-        'fecha_visita_reprogramada',
+        'fecha_visita_reprogramada',    
     ];
 
     public function vendedor()

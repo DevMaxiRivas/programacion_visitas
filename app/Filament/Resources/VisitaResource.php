@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\VisitaResource\Pages;
+use App\Filament\Widgets\CalendarWidget;
 use App\Models\Visita;
 
 use Filament\Forms\Form;
@@ -14,11 +15,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
 use Illuminate\Support\HtmlString;
-
-// Mensajes de validación
-use App\Validation\Messages;
-use Carbon\Carbon;
-use Filament\Navigation\NavigationItem;
+use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
 class VisitaResource extends Resource
 {
@@ -124,6 +121,7 @@ class VisitaResource extends Resource
             'view' => Pages\ViewVisita::route('/{record}'),
             'edit' => Pages\EditVisita::route('/{record}/editar'),
             'lista_archivos' => Pages\ListaArchivos::route('/{record}/archivos'),
+            // 'calendario' => Pages\VerCalendario::route('/calendario'),
         ];
     }
 
@@ -131,4 +129,13 @@ class VisitaResource extends Resource
     {
         return (string) Visita::contar_visitas_pendientes();
     }
+
+    // protected function getHeaderWidgets(): array
+    // {
+    //     return [
+    //         // CalendarWidget::class,
+    //         FilamentFullCalendarPlugin::make()
+    //             ->selectable()
+    //     ];
+    // }
 }

@@ -22,11 +22,11 @@ class ListVisitas extends ListRecords
     public function obtenerAccionesCabeceraPorRol(): array
     {
         if (User::actual()->rol->is_admin()) {
-            $fechaInicioMes = now()->modify('first day of this month');
-            $fechaInicioMesSiguiente = now()->modify('first day of next month');
+            // $fechaInicioMes = now()->modify('first day of this month');
+            // $fechaInicioMesSiguiente = now()->modify('first day of next month');
 
-            Log::info('Fecha Inicio Mes: ' . $fechaInicioMes->format('Y-m-d'));
-            Log::info('Fecha Inicio Mes Siguiente: ' . $fechaInicioMesSiguiente->format('Y-m-d'));
+            // Log::info('Fecha Inicio Mes: ' . $fechaInicioMes->format('Y-m-d'));
+            // Log::info('Fecha Inicio Mes Siguiente: ' . $fechaInicioMesSiguiente->format('Y-m-d'));
             return [
                 Actions\CreateAction::make(),
                 Actions\ExportAction::make()
@@ -37,7 +37,11 @@ class ListVisitas extends ListRecords
                     //     fn(Builder $query)
                     //     => $query->whereBetween('fecha_visita', $fechaInicioMes->format('Y-m-d'), $fechaInicioMesSiguiente->format('Y-m-d'))
                     // )
-                    ,
+                //     ,
+                // Actions\Action::make('calendario')
+                // ->label('Calendario')
+                // ->url(VisitaResource::getUrl('calendario'))
+                // ,
             ];
         } else {
             return [];

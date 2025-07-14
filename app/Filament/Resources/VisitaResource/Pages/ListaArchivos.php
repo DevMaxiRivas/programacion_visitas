@@ -26,16 +26,10 @@ class ListaArchivos extends Page
     protected function getHeaderActions(): array
     {
         return [
-            // Add any header actions if needed
             \Filament\Actions\Action::make('volver')
                 ->label('Volver')
                 ->url(VisitaResource::getUrl('view', ['record' => $this->record]))
                 ->requiresConfirmation(false),
-            // \Filament\Actions\Action::make('descargar_archivos')
-            //     ->label('Descargar Archivos')
-            //     ->url(VisitaResource::getUrl('lista_archivos', ['record' => $this->record]) ?? '#')
-            //     ->color('primary')
-            //     ->requiresConfirmation(false)
         ];
     }
 }
