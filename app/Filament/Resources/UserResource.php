@@ -123,7 +123,6 @@ class UserResource extends Resource
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/crear'),
             'edit' => Pages\EditUser::route('/{record}/editar'),
-            'calendario' => Pages\CalendarioPorVendedorPage::route('/{record}/visitas/calendario'),
         ];
     }
 
