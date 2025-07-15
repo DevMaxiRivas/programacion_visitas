@@ -1,9 +1,13 @@
 <?php
 
+use App\Filament\Pages\MiPaginaCustom;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+
+use Filament\Facades\Filament;
 
 Route::get('/', function () {
     // return view('welcome');
@@ -29,6 +33,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('visita.imagen');
     Route::get('visita/{visita}/archivo/{indice}', [\App\Http\Controllers\VisitaController::class, 'obtener_archivos'])
         ->name('visita.archivo');
+
+
+    // Route::get('/panel/calendario-eventos', MiPaginaCustom::class)->name('panel.calendario.por.vendedor');
+    // Route::get('/panel/mi-pagina-custom', MiPaginaCustom::class)->name('panel.calendario.por.vendedor');
 });
 
 require __DIR__.'/auth.php';

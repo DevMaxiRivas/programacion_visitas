@@ -2,6 +2,7 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\UserResource;
 use Saade\FilamentFullCalendar\Widgets\FullCalendarWidget;
 
 use App\Filament\Resources\VisitaResource;
@@ -17,6 +18,8 @@ use Filament\Forms;
 use Filament\Forms\Get;
 use Illuminate\Support\Facades\Log;
 
+use Filament\Actions as ActionsFilament;
+
 class CalendarWidget extends FullCalendarWidget
 
 {
@@ -26,9 +29,13 @@ class CalendarWidget extends FullCalendarWidget
 
     protected function obtenerAccionesPorRole(): array
     {
-        if (user::actual()->rol->is_admin()) {
+        if (User::actual()->rol->is_admin()) {
             return [
-                Actions\CreateAction::make()
+                Actions\CreateAction::make(),
+                ActionsFilament\Action::make('Calendario por Vendedores')
+                    ->url(route('filament.panel.pages.mi-pagina-custom', ['vendedor' => User::actual()->id]))
+                    // ->url(UserResource::getUrl('calendario', ['record' => User::actual()->id]))
+                    // ->url(config('app.url') . '/panel/mi-pagina-custom?vendedor=' . User::actual()->id)
             ];
         } else {
             return [];
@@ -55,7 +62,7 @@ class CalendarWidget extends FullCalendarWidget
 
     protected function obtenerFormularioPorRol(): array
     {
-        if ($this->user->rol->is_admin()) {
+        if (User::actual()->rol->is_admin()) {
             return [
                 Forms\Components\Grid::make()
                     ->schema([
@@ -122,9 +129,10 @@ class CalendarWidget extends FullCalendarWidget
 
     public function fetchEvents(array $fetchInfo): array
     {
+        Log::info("Fetch Info");
         Log::info(!empty($this->user) ? $this->user : 'No hay user');
 
-        return $this->obtenerQueryVisitasPorRole($fetchInfo, $this->user ? User::find($this->user) : User::actual())
+        return $this->obtenerQueryVisitasPorRole($fetchInfo, $this->user ?? User::actual())
             ->get()->map(
                 fn(Visita $visita) => [
                     'title' => $visita->cliente->razon_social,
