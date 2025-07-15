@@ -16,7 +16,7 @@ use Saade\FilamentFullCalendar\Actions;
 
 use Filament\Forms;
 use Filament\Forms\Get;
-use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Log;
 
 use Filament\Actions as ActionsFilament;
 
@@ -127,8 +127,8 @@ class CalendarWidget extends FullCalendarWidget
 
     public function fetchEvents(array $fetchInfo): array
     {
-        Log::info("Fetch Info");
-        Log::info(!empty($this->user) ? $this->user : 'No hay user');
+        // La variable user se utiliza para obtener las visitas del usuario actual sino se especifica uno
+        // Si es admin se obtiene todas las visitas
 
         return $this->obtenerQueryVisitasPorRole($fetchInfo, $this->user ?? User::actual())
             ->get()->map(
