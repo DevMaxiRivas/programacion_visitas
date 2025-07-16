@@ -21,13 +21,11 @@
                         <div
                             class="fi-input-wrp flex rounded-lg shadow-sm ring-1 transition duration-75 bg-white dark:bg-white/5 [&amp;:not(:has(.fi-ac-action:focus))]:focus-within:ring-2 ring-gray-950/10 dark:ring-white/20 [&amp;:not(:has(.fi-ac-action:focus))]:focus-within:ring-primary-600 dark:[&amp;:not(:has(.fi-ac-action:focus))]:focus-within:ring-primary-500 fi-fo-select">
                             <div class="fi-input-wrp-input min-w-0 flex-1">
-                                <select wire:model="user" name="user" id="user" required
+                                <select wire:model="vendedor_seleccionado" name="vendedor_seleccionado" id="vendedor_seleccionado" required
                                     class="fi-select-input block w-full border-none bg-transparent py-1.5 pe-8 text-base text-gray-950 transition duration-75 focus:ring-0 disabled:text-gray-500 disabled:[-webkit-text-fill-color:theme(colors.gray.500)] dark:text-white dark:disabled:text-gray-400 dark:disabled:[-webkit-text-fill-color:theme(colors.gray.400)] sm:text-sm sm:leading-6 [&amp;_optgroup]:bg-white [&amp;_optgroup]:dark:bg-gray-900 [&amp;_option]:bg-white [&amp;_option]:dark:bg-gray-900 ps-3">
-                                    <option value="">
-                                        Seleccione una opción
-                                    </option>
-                                    <option value={{ $user_actual->id }}>Todos</option>
-                                    @foreach ($users as $user)
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="">Todos</option>
+                                    @foreach ($vendedores as $user)
                                         <option value="{{ $user->id }}"
                                             @if ($vendedor->id == $user->id) selected @endif>
                                             {{ $user->name }}
