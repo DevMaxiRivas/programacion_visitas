@@ -22,6 +22,11 @@ class ListaArchivos extends Page
     // protected static ?string $navigationGroup = 'Visitas';
 
     // protected static ?int $navigationSort = 2;
+    protected static string | array $routeMiddleware = [
+        'auth', // Middleware for authentication on this page
+        'visitas.visibles', // Middleware para ver si el usuario puede visualizar el contenido de la visita
+    ];
+
 
     protected function getHeaderActions(): array
     {

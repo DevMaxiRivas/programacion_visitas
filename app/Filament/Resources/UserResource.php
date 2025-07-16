@@ -17,6 +17,7 @@ use App\Filament\Imports\UserImporter;
 use Filament\Tables\Actions\ImportAction;
 
 use App\Enums\EnumsRoles;
+use App\Filament\Resources\UserResource\RelationManagers\VisitasRelationManager;
 use Filament\Navigation\NavigationItem;
 
 class UserResource extends Resource
@@ -113,7 +114,8 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ClienteRelationManager::class
+            ClienteRelationManager::class,
+            VisitasRelationManager::class
         ];
     }
 

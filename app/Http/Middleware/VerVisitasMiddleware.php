@@ -21,13 +21,17 @@ class VerVisitasMiddleware
     {
 
         $parametros_ruta = $request->route()->parameters();
-        $visita = $parametros_ruta['record'] ?? null;
+        $visita = $parametros_ruta['record'];
 
         if(empty($visita)) {
             return response()->view('errors.404', [], 404);
         }
 
-        if (!empty($visita) && (User::actual()->rol->is_admin() || Visita::find($visita)->es_visible())) {
+        if (!$visita instanceof Visita) {
+            $visita = Visita::findOrFail($visita);
+        }
+
+        if (User::actual()->rol->is_admin() || $visita->es_visible()) {
             return $next($request);
         }
         

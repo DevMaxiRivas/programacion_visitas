@@ -16,6 +16,11 @@ class ListUsers extends ListRecords
     protected static string $resource = UserResource::class;
     protected static ?string $title = 'Usuarios';
 
+    protected static string | array $routeMiddleware = [
+        'auth', // Middleware for authentication on this page
+        'rol:admin', // Middleware to check if the visit can be modified
+    ];
+
     protected function getHeaderActions(): array
     {
         return [
