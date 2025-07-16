@@ -1,13 +1,11 @@
 <?php
 
-use App\Filament\Pages\MiPaginaCustom;
+use App\Livewire\CrearMultiplesVisitas;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
-use App\Models\User;
+use App\Livewire\Visita\CreateMultipleVisita;
 use Illuminate\Support\Facades\Route;
-
-use Filament\Facades\Filament;
 
 Route::get('/', function () {
     // return view('welcome');
@@ -36,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Route::get('/panel/calendario-eventos', MiPaginaCustom::class)->name('panel.calendario.por.vendedor');
-    // Route::get('/panel/mi-pagina-custom', MiPaginaCustom::class)->name('panel.calendario.por.vendedor');
+    Route::get('/panel/formulario-visita', CrearMultiplesVisitas::class)->name('panel.formulario.visita');
 });
 
 require __DIR__.'/auth.php';

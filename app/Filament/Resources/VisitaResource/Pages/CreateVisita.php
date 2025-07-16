@@ -5,6 +5,8 @@ namespace App\Filament\Resources\VisitaResource\Pages;
 use App\Filament\Resources\VisitaResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class CreateVisita extends CreateRecord
 {
@@ -19,6 +21,5 @@ class CreateVisita extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
-
 
 }

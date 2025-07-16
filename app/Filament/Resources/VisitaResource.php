@@ -4,16 +4,26 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\VisitaResource\Pages;
 use App\Filament\Widgets\CalendarWidget;
+use App\Models\Cliente;
 use App\Models\Visita;
-
+use App\Validation\Messages;
+use Closure;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\HtmlString;
 use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
@@ -85,13 +95,11 @@ class VisitaResource extends Resource
                     ->dateTime(),
                 TextEntry::make('fecha_visita')
                     ->label('Fecha de Visita')
-                    ->date()
-                    ,
+                    ->date(),
                 TextEntry::make('fecha_visita_reprogramada')
                     ->label('Fecha de Visita Reprogramada')
                     ->date()
-                    ->visible(fn($record) => !empty($record->fecha_visita_reprogramada))
-                    ,
+                    ->visible(fn($record) => !empty($record->fecha_visita_reprogramada)),
                 TextEntry::make('updated_at')
                     ->label('Fecha de Actualización')
                     ->dateTime(),

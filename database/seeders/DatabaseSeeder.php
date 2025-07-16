@@ -20,6 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(ClienteSeeder::class);
 
-        Visita::factory(100)->create();
+        // Visita::factory(100)->create();
 }
 }
