@@ -49,7 +49,7 @@ class Visita extends Model
 
     protected $dates = [
         'fecha_visita',
-        'fecha_visita_reprogramada',    
+        'fecha_visita_reprogramada',
     ];
 
     public function vendedor()
@@ -88,7 +88,7 @@ class Visita extends Model
         if (
             User::actual()->id === $this->vendedor_id &&
             ($this->estado === EnumVisitaEstado::PENDIENTE ||
-            $this->estado === EnumVisitaEstado::REPROGRAMADA) &&
+                $this->estado === EnumVisitaEstado::REPROGRAMADA) &&
             now()->format('Y-m-d') >= $this->fecha_visita
         ) {
             return true;
@@ -236,6 +236,13 @@ class Visita extends Model
                         ) {
                             $fail("La fecha de visita debe ser posterior a la fecha actual.");
                         }
+                        if (
+                            empty($get('id')) &&
+                            !empty($get('fecha_visita')) &&
+                            Visita::where('fecha_visita', $get('fecha_visita'))->where('cliente_id', $get('cliente_id'))->exists()
+                        ) {
+                            $fail("Este cliente ya se encuentra con una visita programada para esa fecha");
+                        }
                     },
                 ])
                 ->required()
@@ -254,7 +261,7 @@ class Visita extends Model
                 ->visible(
                     function (Get $get) {
                         return $get('estado') == (string)EnumVisitaEstado::REPROGRAMADA->value;
-                    } 
+                    }
                 ),
             Forms\Components\RichEditor::make('indicaciones')
                 ->label('Indicaciones')
@@ -331,5 +338,72 @@ class Visita extends Model
 
 
         return $listaComponentesFormulario;
+    }
+
+
+    protected static function obtener_componentes_formulario_rapido(): array
+    {
+        return
+            [
+                Forms\Components\Select::make('cliente_id')
+                    ->label('Cliente')
+                    ->relationship('cliente', 'razon_social')
+                    ->searchable()
+                    ->preload()
+                    ->live()
+                    ->afterStateUpdated(
+                        function (Get $get, callable $set) {
+                            $set('vendedor_id', Cliente::find($get('cliente_id'))->vendedor_id ?? null);
+                        }
+                    )
+                    ->required()
+                    ->validationMessages(Messages::getMessagesForFields(['required' => []], 'cliente')),
+                Forms\Components\Hidden::make('vendedor_id'),
+                Forms\Components\DatePicker::make('fecha_visita')
+                    ->default(now()->format('Y-m-d'))
+                    ->rules([
+                        fn(Get $get): Closure => function (string $attribute, $value, Closure $fail) use ($get) {
+                            if (
+                                empty($get('id')) &&
+                                !empty($get('fecha_visita')) &&
+                                $get('fecha_visita') < now()->format('Y-m-d')
+                            ) {
+                                $fail("La fecha de visita debe ser posterior a la fecha actual.");
+                            }
+                            if (
+                                empty($get('id')) &&
+                                !empty($get('fecha_visita')) &&
+                                Visita::where('fecha_visita', $get('fecha_visita'))->where('cliente_id', $get('cliente_id'))->exists()
+                            ) {
+                                $fail("Este cliente ya se encuentra con una visita programada para esa fecha");
+                            }
+                        },
+                    ])
+                    ->required()
+                    ->validationMessages(Messages::getMessagesForFields(['required' => []], 'fecha de visita'))
+                    ->label('Fecha de visita'),
+                Forms\Components\Toggle::make('agregar_indicaciones')
+                    ->label('Agregar indicaciones')
+                    ->live()
+                    ->default(false),
+                Forms\Components\RichEditor::make('indicaciones')
+                    ->label('Indicaciones')
+                    ->visible(fn(Get $get) => $get('agregar_indicaciones'))
+                    ->columnSpanFull()
+                    ->toolbarButtons([
+                        'blockquote',
+                        'bold',
+                        'bulletList',
+                        'h2',
+                        'h3',
+                        'italic',
+                        'link',
+                        'orderedList',
+                        'redo',
+                        'strike',
+                        'underline',
+                        'undo',
+                    ]),
+            ];
     }
 }

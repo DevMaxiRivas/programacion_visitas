@@ -61,42 +61,7 @@ class CalendarWidget extends FullCalendarWidget
     protected function obtenerFormularioPorRol(): array
     {
         if (User::actual()->rol->is_admin()) {
-            return [
-                Forms\Components\Grid::make()
-                    ->schema([
-                        Forms\Components\Select::make('cliente_id')
-                            ->relationship('cliente', 'razon_social')
-                            ->searchable()
-                            ->preload()
-                            ->live()
-                            ->afterStateUpdated(
-                                fn(Get $get, callable $set) =>
-                                $get('cliente_id') ?
-                                    $set('vendedor_id', Cliente::find($get('cliente_id'))->vendedor_id) : null
-                            )
-                            ->required(),
-                        Forms\Components\Hidden::make('vendedor_id'),
-                        Forms\Components\DatePicker::make('fecha_visita')
-                            ->minDate(now()->format('Y-m-d'))
-                            ->required(),
-                    ]),
-                Forms\Components\RichEditor::make('indicaciones')
-                    ->columnSpanFull()
-                    ->toolbarButtons([
-                        'blockquote',
-                        'bold',
-                        'bulletList',
-                        'h2',
-                        'h3',
-                        'italic',
-                        'link',
-                        'orderedList',
-                        'redo',
-                        'strike',
-                        'underline',
-                        'undo',
-                    ]),
-            ];
+            return Visita::obtener_componentes_formulario_rapido();
         } else {
             return [];
         }
