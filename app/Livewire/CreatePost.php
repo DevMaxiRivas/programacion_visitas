@@ -125,7 +125,6 @@ class CreatePost extends Component implements HasForms
 
     protected function registrar_visitas(array $data): bool
     {
-        Log::info('Registrar Visita');
         try {
             foreach($data as $visita)
             {

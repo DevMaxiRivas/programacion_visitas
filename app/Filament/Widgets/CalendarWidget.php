@@ -32,6 +32,8 @@ class CalendarWidget extends FullCalendarWidget
         if (User::actual()->rol->is_admin()) {
             return [
                 Actions\CreateAction::make(),
+                ActionsFilament\Action::make('Crear Multiples')
+                    ->url(VisitaResource::getUrl('crear_multiples')),
                 ActionsFilament\Action::make('Calendario por Vendedores')
                     ->url(route('filament.panel.pages.calendario-por-usuario', ['vendedor' => User::actual()->id]))
             ];

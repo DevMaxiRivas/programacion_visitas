@@ -1,13 +1,13 @@
 <?php
 
-use App\Livewire\CrearMultiplesVisitas;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
-use App\Livewire\Visita\CreateMultipleVisita;
 use Illuminate\Support\Facades\Route;
 
 use App\Livewire\CreatePost;
+use App\Livewire\CreateFormMultipleVisita;
+
 
 Route::get('/', function () {
     // return view('welcome');
@@ -33,12 +33,9 @@ Route::middleware(['auth'])->group(function () {
         ->name('visita.imagen');
     Route::get('visita/{visita}/archivo/{indice}', [\App\Http\Controllers\VisitaController::class, 'obtener_archivos'])
         ->name('visita.archivo');
-
-
-    // Route::get('/panel/calendario-eventos', MiPaginaCustom::class)->name('panel.calendario.por.vendedor');
-    Route::get('/panel/formulario-visita', CrearMultiplesVisitas::class)->name('panel.formulario.visita');
 });
 
 Route::get('posts/create', CreatePost::class);
+// Route::get('visita/create', CreateFormMultipleVisita::class);
 
 require __DIR__.'/auth.php';

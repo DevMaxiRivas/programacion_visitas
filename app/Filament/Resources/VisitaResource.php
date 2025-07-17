@@ -128,10 +128,10 @@ class VisitaResource extends Resource
         return [
             'index' => Pages\ListVisitas::route('/'),
             'create' => Pages\CreateVisita::route('/crear'),
+            'crear_multiples' => Pages\CreateFormMultipleVisitaPage::route('/crear_multiples'),
             'view' => Pages\ViewVisita::route('/{record}'),
             'edit' => Pages\EditVisita::route('/{record}/editar'),
             'lista_archivos' => Pages\ListaArchivos::route('/{record}/archivos'),
-            // 'calendario' => Pages\VerCalendario::route('/calendario'),
         ];
     }
 
