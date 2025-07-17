@@ -5,9 +5,6 @@ use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
-use App\Livewire\CreatePost;
-use App\Livewire\CreateFormMultipleVisita;
-
 
 Route::get('/', function () {
     // return view('welcome');
@@ -34,8 +31,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('visita/{visita}/archivo/{indice}', [\App\Http\Controllers\VisitaController::class, 'obtener_archivos'])
         ->name('visita.archivo');
 });
-
-Route::get('posts/create', CreatePost::class);
-// Route::get('visita/create', CreateFormMultipleVisita::class);
 
 require __DIR__.'/auth.php';
