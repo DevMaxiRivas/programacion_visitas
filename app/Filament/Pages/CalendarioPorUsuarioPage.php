@@ -17,6 +17,8 @@ class CalendarioPorUsuarioPage extends Page
     
     protected static ?string $title = 'Calendario';
 
+    protected static ?string $slug = 'calendario-por-usuario';
+
     protected static string | array $routeMiddleware = [
         'auth', // Middleware for authentication on this page
         'rol:admin', // Middleware to check if the visit can be modified
@@ -40,9 +42,9 @@ class CalendarioPorUsuarioPage extends Page
     public function cambiarUser()
     {
         if(empty($this->vendedor_seleccionado)) 
-            return redirect(route('filament.panel.pages.calendario-por-usuario-page'));
+            return redirect(route('filament.panel.pages.calendario-por-usuario'));
 
-        return redirect(route('filament.panel.pages.calendario-por-usuario-page', ['vendedor' => $this->vendedor_seleccionado]));
+        return redirect(route('filament.panel.pages.calendario-por-usuario', ['vendedor' => $this->vendedor_seleccionado]));
     }
 
     public static function getNavigationItems(): array

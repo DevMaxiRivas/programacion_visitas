@@ -1,3 +1,4 @@
 <x-filament-panels::page>
-        @livewire('crear-multiples-visitas')
+        @livewire('create-visita')
+        {{-- CreateMultipleVisita --}}
 </x-filament-panels::page>

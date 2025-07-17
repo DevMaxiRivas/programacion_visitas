@@ -33,7 +33,7 @@ class CalendarWidget extends FullCalendarWidget
             return [
                 Actions\CreateAction::make(),
                 ActionsFilament\Action::make('Calendario por Vendedores')
-                    ->url(route('filament.panel.pages.calendario-por-usuario-page', ['vendedor' => User::actual()->id]))
+                    ->url(route('filament.panel.pages.calendario-por-usuario', ['vendedor' => User::actual()->id]))
             ];
         } else {
             return [];

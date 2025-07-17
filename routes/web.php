@@ -7,6 +7,8 @@ use App\Livewire\Settings\Profile;
 use App\Livewire\Visita\CreateMultipleVisita;
 use Illuminate\Support\Facades\Route;
 
+use App\Livewire\CreatePost;
+
 Route::get('/', function () {
     // return view('welcome');
     return redirect('/panel');
@@ -36,5 +38,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/panel/calendario-eventos', MiPaginaCustom::class)->name('panel.calendario.por.vendedor');
     Route::get('/panel/formulario-visita', CrearMultiplesVisitas::class)->name('panel.formulario.visita');
 });
+
+Route::get('posts/create', CreatePost::class);
 
 require __DIR__.'/auth.php';
